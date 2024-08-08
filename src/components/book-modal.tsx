@@ -3,8 +3,9 @@ import HeartIcon from "./icons/heart-icon";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Rating from "./star-group";
-import BookComment from "./book-comment";
+import BookReview from "./book-comment";
 import { comments } from "@/lib/dummy-data";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 export default function BookModal({
   selectedBook,
@@ -15,7 +16,15 @@ export default function BookModal({
 }) {
   return (
     <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-20">
-      <div className="bg-background rounded-lg shadow-lg w-full max-w-4xl h-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute top-3 right-3 text-muted-foreground hover:bg-muted/10"
+          onClick={() => setSelectedBook(null)}
+        >
+          <Cross2Icon className="w-5 h-5" />
+        </Button>
         <div>
           <img
             src="/placeholder.svg"
@@ -46,21 +55,13 @@ export default function BookModal({
           </div>
         </div>
         <div className="space-y-4">
+          <h2 className="font-bold">Reviews</h2>
           <Rating rating={selectedBook.rating} />
           <div className="space-y-4">
             {comments.map((c) => (
-              <BookComment key={c.id} comment={c} />
+              <BookReview key={c.id} comment={c} />
             ))}
           </div>
-        </div>
-        <div className="flex justify-end p-4">
-          <Button
-            variant="ghost"
-            className="text-muted-foreground hover:bg-muted/10"
-            onClick={() => setSelectedBook(null)}
-          >
-            Close
-          </Button>
         </div>
       </div>
     </div>

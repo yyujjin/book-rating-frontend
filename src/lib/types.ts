@@ -5,7 +5,7 @@ export interface Book {
   level: number;
 }
 
-export interface Comment {
+export interface Review {
   id: number;
   nickname: string;
   rate: number;

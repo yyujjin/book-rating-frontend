@@ -2,10 +2,10 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import FilePenIcon from "./icons/file-pen";
 import { Button } from "./ui/button";
 import TrashIcon from "./icons/trash";
-import type { Comment } from "@/lib/types";
+import type { Review } from "@/lib/types";
 import Rating from "./star-group";
 
-export default function BookComment({ comment }: { comment: Comment }) {
+export default function BookReview({ comment }: { comment: Review }) {
   return (
     <div className="flex items-start gap-4">
       <Avatar className="w-8 h-8 border">

@@ -10,7 +10,7 @@ export default function Rating({ rating }: { rating: number }) {
             className={`w-5 h-5 ${
               i < Math.floor(rating)
                 ? "fill-yellow-300"
-                : "fill-muted stroke-muted-foreground"
+                : "fill-white stroke-muted-foreground"
             }`}
           />
         ))}

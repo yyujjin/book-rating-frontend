@@ -1,4 +1,4 @@
-import { Book, Comment } from "./types";
+import { Book, Review } from "./types";
 
 export const books: Book[] = [
   {
@@ -39,7 +39,7 @@ export const books: Book[] = [
   },
 ];
 
-export const comments: Comment[] = [
+export const comments: Review[] = [
   {
     id: 1,
     nickname: "JD",

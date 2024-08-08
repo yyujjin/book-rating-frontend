@@ -28,7 +28,7 @@ export default function BookCard({
         className="object-cover w-full h-80"
         style={{ aspectRatio: "500/700", objectFit: "cover" }}
       />
-      <div className="p-4 bg-background">
+      <div className="p-4 bg-white">
         <h3 className="text-xl font-bold">{book.title}</h3>
         <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
           {book.tags.map((tag, index) => (
