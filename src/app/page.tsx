@@ -32,6 +32,8 @@ import { Book } from "@/lib/types";
 import SearchInput from "@/components/search-input";
 import BookCard from "@/components/book-card";
 import BookModal from "@/components/book-modal";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 export default function Home() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -51,6 +53,18 @@ export default function Home() {
           <SearchInput />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out">
+            <div className="flex items-center justify-center h-full">
+              <Button
+                size="lg"
+                variant="ghost"
+                className="transition duration-150 text-gray-700 hover:bg-primary/10 hover:text-lg hover:text-gray-800"
+              >
+                <PlusIcon className="w-6 h-6" />
+                <span>Add Book</span>
+              </Button>
+            </div>
+          </div>
           {books.map((book, index) => (
             <BookCard
               key={index}
