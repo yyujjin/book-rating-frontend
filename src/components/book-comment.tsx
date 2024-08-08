@@ -8,7 +8,7 @@ import Rating from "./star-group";
 export default function BookReview({ comment }: { comment: Review }) {
   return (
     <div className="flex items-start gap-4">
-      <Avatar className="w-8 h-8 border">
+      <Avatar className="w-8 h-8 border mt-2">
         <AvatarImage src="/placeholder-user.jpg" alt="User" />
         <AvatarFallback>{comment.nickname}</AvatarFallback>
       </Avatar>
