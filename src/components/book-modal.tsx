@@ -2,7 +2,7 @@ import { Book } from "@/lib/types";
 import HeartIcon from "./icons/heart-icon";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import StarGroup from "./star-group";
+import Rating from "./star-group";
 import BookComment from "./book-comment";
 import { comments } from "@/lib/dummy-data";
 
@@ -46,12 +46,7 @@ export default function BookModal({
           </div>
         </div>
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <StarGroup rating={selectedBook.rating} />
-            </div>
-            <div className="text-sm font-medium">{selectedBook.rating}</div>
-          </div>
+          <Rating rating={selectedBook.rating} />
           <div className="space-y-4">
             {comments.map((c) => (
               <BookComment key={c.id} comment={c} />

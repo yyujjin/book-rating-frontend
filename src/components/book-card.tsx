@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Badge } from "./ui/badge";
-import StarIcon from "./icons/star-icon";
 import { Button } from "./ui/button";
 import HeartIcon from "./icons/heart-icon";
 import { Book } from "@/lib/types";
+import Rating from "./star-group";
 
 export default function BookCard({
   book,
@@ -37,21 +37,7 @@ export default function BookCard({
             </Badge>
           ))}
         </div>
-        <div className="flex items-center gap-2 mt-2">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <StarIcon
-                key={i}
-                className={`w-5 h-5 ${
-                  i < Math.floor(book.rating)
-                    ? "fill-primary"
-                    : "fill-muted stroke-muted-foreground"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="text-sm font-medium">{book.rating}</div>
-        </div>
+        <Rating rating={book.rating} />
         <div className="flex items-center gap-2 mt-2">
           <Badge variant="secondary">Level {book.level}</Badge>
           <Button

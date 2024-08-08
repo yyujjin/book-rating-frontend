@@ -1,9 +1,9 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import StarIcon from "./icons/star-icon";
 import FilePenIcon from "./icons/file-pen";
 import { Button } from "./ui/button";
 import TrashIcon from "./icons/trash";
 import type { Comment } from "@/lib/types";
+import Rating from "./star-group";
 
 export default function BookComment({ comment }: { comment: Comment }) {
   return (
@@ -14,16 +14,7 @@ export default function BookComment({ comment }: { comment: Comment }) {
       </Avatar>
       <div className="space-y-2 flex-1">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-muted stroke-muted-foreground" />
-            </div>
-            <div className="text-sm font-medium">{comment.rate}</div>
-          </div>
+          <Rating rating={3.5} />
           <div className="flex items-center gap-2">
             <Button
               size="sm"
