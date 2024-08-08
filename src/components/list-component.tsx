@@ -31,9 +31,10 @@ import SearchInput from "./search-input";
 import { books } from "@/lib/dummy-data";
 import BookCard from "./book-card";
 import BookModal from "./book-modal";
+import { Book } from "@/lib/types";
 
 export function ListComponent() {
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   return (
     <div className="bg-gradient-to-br from-primary to-secondary min-h-screen">
       <header className="flex items-center justify-between px-4 md:px-6 py-4">

@@ -1,4 +1,6 @@
-export const books = [
+import { Book, Comment } from "./types";
+
+export const books: Book[] = [
   {
     title: "To Kill a Mockingbird",
     tags: ["Fiction", "Classic", "Drama"],
@@ -34,5 +36,22 @@ export const books = [
     tags: ["Fantasy", "Adventure", "Classic"],
     rating: 4.7,
     level: 3,
+  },
+];
+
+export const comments: Comment[] = [
+  {
+    id: 1,
+    nickname: "JD",
+    rate: 4.5,
+    content:
+      "This book is a masterpiece! The characters are so well-developed and the plot is captivating from start to finish. I couldn't put it down. Highly recommended for anyone who loves thought-provoking fiction.",
+  },
+  {
+    id: 2,
+    nickname: "MD",
+    rate: 3.5,
+    content:
+      "I enjoyed the book, but I felt the pacing was a bit slow at times. The characters were interesting, but I wished there was more character development. Overall, it's a solid read, but not my personal favorite.",
   },
 ];

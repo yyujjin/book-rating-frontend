@@ -3,8 +3,15 @@ import { Badge } from "./ui/badge";
 import StarIcon from "./icons/star-icon";
 import { Button } from "./ui/button";
 import HeartIcon from "./icons/heart-icon";
+import { Book } from "@/lib/types";
 
-export default function BookCard({ book, setSelectedBook }) {
+export default function BookCard({
+  book,
+  setSelectedBook,
+}: {
+  book: Book;
+  setSelectedBook: (book: Book) => void;
+}) {
   return (
     <div
       className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
@@ -34,6 +41,7 @@ export default function BookCard({ book, setSelectedBook }) {
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
               <StarIcon
+                key={i}
                 className={`w-5 h-5 ${
                   i < Math.floor(book.rating)
                     ? "fill-primary"

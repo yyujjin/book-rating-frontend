@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 
 export default function SearchInput() {
   return (
-    <form className="flex items-center w-full max-w-md">
+    <form className="flex items-center w-full max-w-md gap-2">
       <Input
         type="search"
         placeholder="Search books..."
@@ -11,7 +11,7 @@ export default function SearchInput() {
       />
       <Button
         type="submit"
-        className="bg-primary text-white rounded-r-md px-4 py-2 hover:bg-primary-foreground"
+        className="bg-slate-600 transition text-white rounded-r-md px-4 py-2 hover:bg-primary-foreground"
       >
         Search
       </Button>
