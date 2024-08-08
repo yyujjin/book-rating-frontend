@@ -27,17 +27,17 @@ To read more about using these font, please visit the Next.js documentation:
 
 import { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import SearchInput from "./search-input";
+import { books } from "@/lib/dummy-data";
+import BookCard from "./book-card";
+import BookModal from "./book-modal";
 
 export function ListComponent() {
   const [selectedBook, setSelectedBook] = useState(null);
   return (
     <div className="bg-gradient-to-br from-primary to-secondary min-h-screen">
       <header className="flex items-center justify-between px-4 md:px-6 py-4">
-        <div className="text-2xl font-bold">Book Nook</div>
+        <div className="text-2xl font-bold">Book Rating</div>
         <div>
           <Avatar className="h-8 w-8 border">
             <AvatarImage src="/placeholder-user.jpg" alt="User" />
@@ -47,348 +47,24 @@ export function ListComponent() {
       </header>
       <div className="container mx-auto py-8 px-4 md:px-6">
         <div className="flex items-center justify-between mb-6">
-          <form className="flex items-center w-full max-w-md">
-            <Input
-              type="search"
-              placeholder="Search books..."
-              className="flex-1 bg-white rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <Button
-              type="submit"
-              className="bg-primary text-white rounded-r-md px-4 py-2 hover:bg-primary-foreground"
-            >
-              Search
-            </Button>
-          </form>
+          <SearchInput />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: "To Kill a Mockingbird",
-              tags: ["Fiction", "Classic", "Drama"],
-              rating: 4.7,
-              level: 4,
-            },
-            {
-              title: "1984",
-              tags: ["Fiction", "Dystopian", "Classic"],
-              rating: 5,
-              level: 5,
-            },
-            {
-              title: "Pride and Prejudice",
-              tags: ["Fiction", "Romance", "Classic"],
-              rating: 4.5,
-              level: 4,
-            },
-            {
-              title: "The Kite Runner",
-              tags: ["Fiction", "Drama", "Historical"],
-              rating: 4.4,
-              level: 4,
-            },
-            {
-              title: "The Handmaid's Tale",
-              tags: ["Fiction", "Dystopian", "Feminist"],
-              rating: 4.6,
-              level: 5,
-            },
-            {
-              title: "The Hobbit",
-              tags: ["Fantasy", "Adventure", "Classic"],
-              rating: 4.7,
-              level: 3,
-            },
-          ].map((book, index) => (
-            <div
+          {books.map((book, index) => (
+            <BookCard
               key={index}
-              className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
-              onClick={() => setSelectedBook(book)}
-            >
-              <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
-                <span className="sr-only">View Book</span>
-              </Link>
-              <img
-                src="/placeholder.svg"
-                alt={book.title}
-                width={500}
-                height={700}
-                className="object-cover w-full h-80"
-                style={{ aspectRatio: "500/700", objectFit: "cover" }}
-              />
-              <div className="p-4 bg-background">
-                <h3 className="text-xl font-bold">{book.title}</h3>
-                <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                  {book.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon
-                        className={`w-5 h-5 ${
-                          i < Math.floor(book.rating)
-                            ? "fill-primary"
-                            : "fill-muted stroke-muted-foreground"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="text-sm font-medium">{book.rating}</div>
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="secondary">Level {book.level}</Badge>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-primary hover:bg-primary/10"
-                  >
-                    <HeartIcon className="w-5 h-5" />
-                    <span className="sr-only">Add to Favorites</span>
-                  </Button>
-                </div>
-              </div>
-            </div>
+              book={book}
+              setSelectedBook={setSelectedBook}
+            />
           ))}
         </div>
         {selectedBook && (
-          <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-20">
-            <div className="bg-background rounded-lg shadow-lg w-full max-w-4xl h-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-              <div>
-                <img
-                  src="/placeholder.svg"
-                  alt={selectedBook.title}
-                  width={500}
-                  height={700}
-                  className="object-cover w-full h-80 rounded-lg"
-                  style={{ aspectRatio: "500/700", objectFit: "cover" }}
-                />
-                <h2 className="text-2xl font-bold mt-4">
-                  {selectedBook.title}
-                </h2>
-                <div className="flex flex-wrap gap-2 text-sm text-muted-foreground mt-2">
-                  {selectedBook.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="secondary">Level {selectedBook.level}</Badge>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-primary hover:bg-primary/10"
-                  >
-                    <HeartIcon className="w-5 h-5" />
-                    <span className="sr-only">Add to Favorites</span>
-                  </Button>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon
-                        className={`w-5 h-5 ${
-                          i < Math.floor(selectedBook.rating)
-                            ? "fill-primary"
-                            : "fill-muted stroke-muted-foreground"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="text-sm font-medium">
-                    {selectedBook.rating}
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <Avatar className="w-8 h-8 border">
-                      <AvatarImage src="/placeholder-user.jpg" alt="User" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-0.5">
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-muted stroke-muted-foreground" />
-                          </div>
-                          <div className="text-sm font-medium">4.5</div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-muted-foreground hover:bg-muted/10"
-                          >
-                            <FilePenIcon className="w-4 h-4" />
-                            <span className="sr-only">Edit</span>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-muted-foreground hover:bg-muted/10"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                            <span className="sr-only">Delete</span>
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-sm leading-relaxed line-clamp-3">
-                        This book is a masterpiece! The characters are so
-                        well-developed and the plot is captivating from start to
-                        finish. I couldn't put it down. Highly recommended for
-                        anyone who loves thought-provoking fiction.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <Avatar className="w-8 h-8 border">
-                      <AvatarImage src="/placeholder-user.jpg" alt="User" />
-                      <AvatarFallback>SM</AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-0.5">
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-primary" />
-                            <StarIcon className="w-4 h-4 fill-muted stroke-muted-foreground" />
-                            <StarIcon className="w-4 h-4 fill-muted stroke-muted-foreground" />
-                          </div>
-                          <div className="text-sm font-medium">3.5</div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-muted-foreground hover:bg-muted/10"
-                          >
-                            <FilePenIcon className="w-4 h-4" />
-                            <span className="sr-only">Edit</span>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-muted-foreground hover:bg-muted/10"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                            <span className="sr-only">Delete</span>
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-sm leading-relaxed line-clamp-3">
-                        I enjoyed the book, but I felt the pacing was a bit slow
-                        at times. The characters were interesting, but I wished
-                        there was more character development. Overall, it's a
-                        solid read, but not my personal favorite.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-end p-4">
-                <Button
-                  variant="ghost"
-                  className="text-muted-foreground hover:bg-muted/10"
-                  onClick={() => setSelectedBook(null)}
-                >
-                  Close
-                </Button>
-              </div>
-            </div>
-          </div>
+          <BookModal
+            selectedBook={selectedBook}
+            setSelectedBook={setSelectedBook}
+          />
         )}
       </div>
     </div>
-  );
-}
-
-function FilePenIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z" />
-    </svg>
-  );
-}
-
-function HeartIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
-  );
-}
-
-function StarIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-
-function TrashIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18" />
-      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-    </svg>
   );
 }
