@@ -42,20 +42,9 @@ export default function BookModal({
               </Badge>
             ))}
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <Badge variant="secondary">Level {selectedBook.level}</Badge>
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-primary hover:bg-primary/10"
-            >
-              <HeartIcon className="w-5 h-5" />
-              <span className="sr-only">Add to Favorites</span>
-            </Button>
-          </div>
         </div>
         <div className="space-y-4">
-          <h2 className="font-bold">Reviews</h2>
+          <h2 className="font-bold text-xl">Reviews</h2>
           <Rating rating={selectedBook.rating} />
           <div className="space-y-4">
             {comments.map((c) => (

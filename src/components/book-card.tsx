@@ -38,17 +38,6 @@ export default function BookCard({
           ))}
         </div>
         <Rating rating={book.rating} />
-        <div className="flex items-center gap-2 mt-2">
-          <Badge variant="secondary">Level {book.level}</Badge>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-primary hover:bg-primary/10"
-          >
-            <HeartIcon className="w-5 h-5" />
-            <span className="sr-only">Add to Favorites</span>
-          </Button>
-        </div>
       </div>
     </div>
   );
