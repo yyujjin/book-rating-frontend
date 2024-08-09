@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import HeartIcon from "./icons/heart-icon";
 import { Book } from "@/lib/types";
 import Rating from "./star-group";
+import Image from "next/image";
 
 export default function BookCard({
   book,
@@ -20,7 +19,7 @@ export default function BookCard({
       <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
         <span className="sr-only">View Book</span>
       </Link>
-      <img
+      <Image
         src="/placeholder.svg"
         alt={book.title}
         width={500}

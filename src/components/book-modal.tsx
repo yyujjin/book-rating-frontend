@@ -1,11 +1,11 @@
 import { Book } from "@/lib/types";
-import HeartIcon from "./icons/heart-icon";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Rating from "./star-group";
 import BookReview from "./book-comment";
 import { comments } from "@/lib/dummy-data";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import Image from "next/image";
 
 export default function BookModal({
   selectedBook,
@@ -26,7 +26,7 @@ export default function BookModal({
           <Cross2Icon className="w-5 h-5" />
         </Button>
         <div>
-          <img
+          <Image
             src="/placeholder.svg"
             alt={selectedBook.title}
             width={500}
