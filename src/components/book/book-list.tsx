@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import BookCard from "./book-card";
-import BookModal from "./book-modal";
+import BookModal from "./view-book-modal";
 import { Book } from "@/lib/types";
 
 export default function BookList({ books }: { books: Book[] }) {

@@ -26,10 +26,9 @@ To read more about using these font, please visit the Next.js documentation:
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import SearchInput from "@/components/search-input";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { fetchBooks } from "@/lib/actions";
 import BookList from "@/components/book/book-list";
+import AddBookModal from "@/components/book/add-book-modal";
 
 export default async function Home() {
   const books = await fetchBooks();
@@ -49,18 +48,7 @@ export default async function Home() {
           <SearchInput />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out">
-            <div className="flex items-center justify-center h-full">
-              <Button
-                size="lg"
-                variant="ghost"
-                className="transition duration-150 text-gray-700 hover:bg-primary/10 hover:text-lg hover:text-gray-800"
-              >
-                <PlusIcon className="w-6 h-6" />
-                <span>Add Book</span>
-              </Button>
-            </div>
-          </div>
+          <AddBookModal />
           <BookList books={books} />
         </div>
       </div>
