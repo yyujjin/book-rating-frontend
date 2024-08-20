@@ -5,16 +5,16 @@ import TrashIcon from "../icons/trash";
 import type { Review } from "@/lib/types";
 import Rating from "../star-group";
 
-export default function BookReview({ comment }: { comment: Review }) {
+export default function BookReview({ review }: { review: Review }) {
   return (
     <div className="flex items-start gap-4">
       <Avatar className="w-8 h-8 border mt-2">
         <AvatarImage src="/placeholder-user.jpg" alt="User" />
-        <AvatarFallback>{comment.nickname}</AvatarFallback>
+        <AvatarFallback>user</AvatarFallback>
       </Avatar>
       <div className="space-y-2 flex-1">
         <div className="flex items-center justify-between">
-          <Rating rating={3.5} />
+          <Rating rating={review.rating} />
           <div className="flex items-center gap-2">
             <Button
               size="sm"
@@ -35,7 +35,7 @@ export default function BookReview({ comment }: { comment: Review }) {
           </div>
         </div>
         <p className="text-sm leading-relaxed line-clamp-3">
-          {comment.content}
+          {review.reviewText}
         </p>
       </div>
     </div>

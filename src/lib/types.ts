@@ -1,4 +1,5 @@
 export interface Book {
+  id: number;
   title: string;
   tags: Tag[];
   rating: number;
@@ -12,7 +13,7 @@ export interface Tag {
 
 export interface Review {
   id: number;
-  nickname: string;
-  rate: number;
-  content: string;
+  rating: number;
+  reviewText: string;
+  updateAt: Date;
 }
