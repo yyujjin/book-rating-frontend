@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 import { Book } from "@/lib/types";
-import Rating from "./star-group";
+import Rating from "../star-group";
 import Image from "next/image";
+import TagGroup from "../tag-group";
 
 export default function BookCard({
   book,
@@ -30,11 +31,7 @@ export default function BookCard({
       <div className="p-4 bg-white">
         <h3 className="text-xl font-bold">{book.title}</h3>
         <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-          {book.tags.map((tag, index) => (
-            <Badge key={index} variant="outline">
-              {tag}
-            </Badge>
-          ))}
+          <TagGroup tags={book.tags} />
         </div>
         <Rating rating={book.rating} />
       </div>

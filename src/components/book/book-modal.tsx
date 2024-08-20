@@ -1,11 +1,12 @@
 import { Book } from "@/lib/types";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import Rating from "./star-group";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import Rating from "../star-group";
 import BookReview from "./book-comment";
 import { comments } from "@/lib/dummy-data";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import Image from "next/image";
+import TagGroup from "../tag-group";
 
 export default function BookModal({
   selectedBook,
@@ -36,11 +37,7 @@ export default function BookModal({
           />
           <h2 className="text-2xl font-bold mt-4">{selectedBook.title}</h2>
           <div className="flex flex-wrap gap-2 text-sm text-muted-foreground mt-2">
-            {selectedBook.tags.map((tag, index) => (
-              <Badge key={index} variant="outline">
-                {tag}
-              </Badge>
-            ))}
+            <TagGroup tags={selectedBook.tags} />
           </div>
         </div>
         <div className="space-y-4">

@@ -1,9 +1,9 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import FilePenIcon from "./icons/file-pen";
-import { Button } from "./ui/button";
-import TrashIcon from "./icons/trash";
+import FilePenIcon from "../icons/file-pen";
+import { Button } from "../ui/button";
+import TrashIcon from "../icons/trash";
 import type { Review } from "@/lib/types";
-import Rating from "./star-group";
+import Rating from "../star-group";
 
 export default function BookReview({ comment }: { comment: Review }) {
   return (

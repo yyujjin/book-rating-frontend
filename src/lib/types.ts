@@ -1,8 +1,13 @@
 export interface Book {
   title: string;
-  tags: string[];
+  tags: Tag[];
   rating: number;
   level: number;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
 }
 
 export interface Review {

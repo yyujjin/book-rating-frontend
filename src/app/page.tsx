@@ -23,20 +23,16 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-"use client";
 
-import { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { books } from "@/lib/dummy-data";
-import { Book } from "@/lib/types";
 import SearchInput from "@/components/search-input";
-import BookCard from "@/components/book-card";
-import BookModal from "@/components/book-modal";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { fetchBooks } from "@/lib/actions";
+import BookList from "@/components/book/book-list";
 
-export default function Home() {
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+export default async function Home() {
+  const books = await fetchBooks();
   return (
     <div className="bg-gradient-to-br from-primary to-secondary min-h-screen">
       <header className="flex items-center justify-between px-4 md:px-6 py-4">
@@ -65,20 +61,8 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          {books.map((book, index) => (
-            <BookCard
-              key={index}
-              book={book}
-              setSelectedBook={setSelectedBook}
-            />
-          ))}
+          <BookList books={books} />
         </div>
-        {selectedBook && (
-          <BookModal
-            selectedBook={selectedBook}
-            setSelectedBook={setSelectedBook}
-          />
-        )}
       </div>
     </div>
   );
