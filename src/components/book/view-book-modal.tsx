@@ -3,10 +3,9 @@ import { Button } from "../ui/button";
 import Rating from "../star-group";
 import BookReview from "./review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import Image from "next/image";
-import TagGroup from "../tag-group";
 import { fetchReviews } from "@/lib/actions";
 import { useEffect, useState } from "react";
+import BookInfo from "./book-info";
 
 interface Response {
   reviews: Review[];
@@ -28,7 +27,7 @@ export default function BookModal({
       setReviews(res.reviews);
       setAverageRating(res.averageRating);
     });
-  }, []);
+  }, [selectedBook.id]);
 
   return (
     <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-20">
@@ -41,20 +40,7 @@ export default function BookModal({
         >
           <Cross2Icon className="w-5 h-5" />
         </Button>
-        <div>
-          <Image
-            src="/placeholder.svg"
-            alt={selectedBook.title}
-            width={500}
-            height={700}
-            className="object-cover w-full h-80 rounded-lg"
-            style={{ aspectRatio: "500/700", objectFit: "cover" }}
-          />
-          <h2 className="text-2xl font-bold mt-4">{selectedBook.title}</h2>
-          <div className="flex flex-wrap gap-2 text-sm text-muted-foreground mt-2">
-            <TagGroup tags={selectedBook.tags} />
-          </div>
-        </div>
+        <BookInfo selectedBook={selectedBook} />
         <div className="space-y-4">
           <h2 className="font-bold text-xl">Reviews</h2>
           <Rating rating={averageRating} />
