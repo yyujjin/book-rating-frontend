@@ -15,6 +15,7 @@ import { ComboboxDemo } from "../ui/combobox";
 import { postBook } from "@/lib/actions";
 import { AddBook } from "@/lib/types";
 import { useState } from "react";
+import BookForm from "./book-form";
 
 export default function AddBookModal() {
   const [book, setBook] = useState<AddBook>({
@@ -56,48 +57,7 @@ export default function AddBookModal() {
         <DialogHeader>
           <DialogTitle>Add New Book</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">
-              Title
-            </Label>
-            <Input
-              id="title"
-              value={book.title}
-              className="col-span-3"
-              onChange={changeValue}
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="isbn" className="text-right">
-              ISBN
-            </Label>
-            <Input
-              id="isbn"
-              value={book.isbn}
-              className="col-span-3"
-              onChange={changeValue}
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Tags
-            </Label>
-            <ComboboxDemo className="col-span-3 justify-between" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="rating" className="text-right">
-              Rating
-            </Label>
-            <Input
-              id="rating"
-              type="number"
-              className="col-span-3"
-              value={book.rating}
-              onChange={changeValue}
-            />
-          </div>
-        </div>
+        <BookForm />
         <DialogFooter>
           <Button type="submit" onClick={onSubmit}>
             Save
