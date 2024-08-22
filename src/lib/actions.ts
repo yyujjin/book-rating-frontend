@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AddBook } from "./types";
 
 export const fetchBooks = async () => {
   const { data } = await axios.get("http://localhost:8080/books");
@@ -13,4 +14,19 @@ export const fetchTags = async () => {
 export const fetchReviews = async (bookId: number) => {
   const { data } = await axios.get(`api/books/${bookId}/reviews`);
   return data;
+};
+
+export const postBook = async (book: AddBook) => {
+  try {
+    await axios.post(`api/books`, book);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      if (err.response.status === 409) {
+        throw new Error("이미 등록된 ISBN입니다.");
+      }
+    } else {
+      console.error(err);
+      throw new Error("Network Error");
+    }
+  }
 };

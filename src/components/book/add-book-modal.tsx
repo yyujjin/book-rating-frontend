@@ -12,8 +12,30 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ComboboxDemo } from "../ui/combobox";
+import { postBook } from "@/lib/actions";
+import { AddBook } from "@/lib/types";
+import { useState } from "react";
 
 export default function AddBookModal() {
+  const [book, setBook] = useState<AddBook>({
+    title: "",
+    isbn: "",
+    tagIds: [],
+    rating: 1,
+  });
+
+  const changeValue = (e) => {
+    setBook({ ...book, [e.target.id]: e.target.value });
+  };
+
+  const onSubmit = async () => {
+    try {
+      await postBook(book);
+      alert("추가되었습니다.");
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -39,13 +61,23 @@ export default function AddBookModal() {
             <Label htmlFor="title" className="text-right">
               Title
             </Label>
-            <Input id="title" value="Pedro Duarte" className="col-span-3" />
+            <Input
+              id="title"
+              value={book.title}
+              className="col-span-3"
+              onChange={changeValue}
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="isbn" className="text-right">
               ISBN
             </Label>
-            <Input id="isbn" value="Pedro Duarte" className="col-span-3" />
+            <Input
+              id="isbn"
+              value={book.isbn}
+              className="col-span-3"
+              onChange={changeValue}
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
@@ -57,11 +89,17 @@ export default function AddBookModal() {
             <Label htmlFor="rating" className="text-right">
               Rating
             </Label>
-            <Input id="rating" type="number" className="col-span-3" value={1} />
+            <Input
+              id="rating"
+              type="number"
+              className="col-span-3"
+              value={book.rating}
+              onChange={changeValue}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={() => alert("addBook")}>
+          <Button type="submit" onClick={onSubmit}>
             Save
           </Button>
         </DialogFooter>

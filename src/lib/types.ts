@@ -1,10 +1,14 @@
 export interface Book {
   id: number;
   title: string;
+  isbn: string;
   tags: Tag[];
   rating: number;
-  level: number;
 }
+
+export type AddBook = Omit<Book, "id" | "tags"> & {
+  tagIds: number[];
+};
 
 export interface Tag {
   id: number;
