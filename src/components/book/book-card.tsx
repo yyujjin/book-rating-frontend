@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { Badge } from "../ui/badge";
 import { Book } from "@/lib/types";
 import Rating from "../star-group";
 import Image from "next/image";
@@ -15,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import BookForm from "./book-form";
+import { patchBook } from "@/lib/actions";
 
 export default function BookCard({
   book,
@@ -25,8 +24,15 @@ export default function BookCard({
 }) {
   const [open, setOpen] = useState(false);
 
-  const onSubmit = () => {
-    alert("save");
+  const [formData, setFormData] = useState(book);
+
+  const onSubmit = async () => {
+    try {
+      await patchBook(formData)
+      setOpen(false)
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
+    }
   };
 
   return (
@@ -70,7 +76,7 @@ export default function BookCard({
           <DialogHeader>
             <DialogTitle>Edit Book</DialogTitle>
           </DialogHeader>
-          <BookForm />
+          <BookForm formData={formData} setFormData={setFormData} editMode />
           <DialogFooter>
             <Button type="submit" onClick={onSubmit}>
               Save
