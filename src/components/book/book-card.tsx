@@ -4,16 +4,11 @@ import Image from "next/image";
 import TagGroup from "../tag-group";
 import { Button } from "../ui/button";
 import FilePenIcon from "../icons/file-pen";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import { useState } from "react";
 import BookForm from "./book-form";
 import { patchBook } from "@/lib/actions";
+import BookEditModal from "./book-edit-modal";
 
 export default function BookCard({
   book,
@@ -28,8 +23,8 @@ export default function BookCard({
 
   const onSubmit = async () => {
     try {
-      await patchBook(formData)
-      setOpen(false)
+      await patchBook(formData);
+      setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
@@ -71,19 +66,13 @@ export default function BookCard({
           <Rating rating={book.rating} />
         </div>
       </div>
-      <Dialog onOpenChange={() => setOpen(false)} open={open}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit Book</DialogTitle>
-          </DialogHeader>
-          <BookForm formData={formData} setFormData={setFormData} editMode />
-          <DialogFooter>
-            <Button type="submit" onClick={onSubmit}>
-              Save
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <BookEditModal
+        onConfirm={onSubmit}
+        open={open}
+        onOpenChange={() => setOpen(false)}
+      >
+        <BookForm formData={formData} setFormData={setFormData} editMode />
+      </BookEditModal>
     </>
   );
 }

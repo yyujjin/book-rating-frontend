@@ -21,3 +21,5 @@ export interface Review {
   reviewText: string;
   updateAt: Date;
 }
+
+export type Fn = () => void;
