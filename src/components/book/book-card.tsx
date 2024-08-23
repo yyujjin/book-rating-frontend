@@ -7,7 +7,7 @@ import FilePenIcon from "../icons/file-pen";
 
 import { useState } from "react";
 import BookForm from "./book-form";
-import { patchBook } from "@/lib/actions";
+import { deleteBook, patchBook } from "@/lib/actions";
 import BookEditModal from "./book-edit-modal";
 
 export default function BookCard({
@@ -24,6 +24,16 @@ export default function BookCard({
   const onSubmit = async () => {
     try {
       await patchBook(formData);
+      setOpen(false);
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
+    }
+  };
+
+  const onDelete = async () => {
+    if (!confirm(`정말 [${book.title}] 책을 삭제하시겠습니까?`)) return;
+    try {
+      await deleteBook(book.id);
       setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);
@@ -67,9 +77,10 @@ export default function BookCard({
         </div>
       </div>
       <BookEditModal
-        onConfirm={onSubmit}
+        onSave={onSubmit}
         open={open}
         onOpenChange={() => setOpen(false)}
+        onDelete={onDelete}
       >
         <BookForm formData={formData} setFormData={setFormData} editMode />
       </BookEditModal>

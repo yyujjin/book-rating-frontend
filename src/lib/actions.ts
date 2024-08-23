@@ -45,3 +45,18 @@ export const patchBook = async (book: Book) => {
     }
   }
 };
+
+export const deleteBook = async (bookId: number) => {
+  try {
+    await axios.delete(`api/books/${bookId}`);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      if (err.response.status === 400) {
+        throw new Error("존재하지 않는 책입니다.");
+      }
+    } else {
+      console.error(err);
+      throw new Error("Network Error");
+    }
+  }
+};

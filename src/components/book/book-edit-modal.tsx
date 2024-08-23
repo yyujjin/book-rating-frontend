@@ -12,12 +12,14 @@ import { Fn } from "@/lib/types";
 export default function BookEditModal({
   open,
   onOpenChange,
-  onConfirm,
+  onSave,
+  onDelete,
   children,
 }: {
   open: boolean;
   onOpenChange: Fn;
-  onConfirm: Fn;
+  onSave: Fn;
+  onDelete: Fn;
   children: ReactNode;
 }) {
   return (
@@ -28,7 +30,10 @@ export default function BookEditModal({
         </DialogHeader>
         {children}
         <DialogFooter>
-          <Button type="submit" onClick={onConfirm}>
+          <Button onClick={onDelete} variant={"destructive"}>
+            Delete
+          </Button>
+          <Button type="submit" onClick={onSave}>
             Save
           </Button>
         </DialogFooter>
