@@ -28,7 +28,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import SearchInput from "@/components/search-input";
 import { fetchBooks } from "@/lib/actions";
 import BookList from "@/components/book/book-list";
-import AddBookModal from "@/components/book/add-book-modal";
+import BookAddModal from "@/components/book/book-add-modal";
 
 export default async function Home() {
   const books = await fetchBooks();
@@ -48,7 +48,7 @@ export default async function Home() {
           <SearchInput />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <AddBookModal />
+          <BookAddModal />
           <BookList books={books} />
         </div>
       </div>

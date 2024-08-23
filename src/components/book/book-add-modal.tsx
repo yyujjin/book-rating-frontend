@@ -14,7 +14,7 @@ import { AddBook } from "@/lib/types";
 import { useState } from "react";
 import BookForm from "./book-form";
 
-export default function AddBookModal() {
+export default function BookAddModal() {
   const [open, setOpen] = useState(false);
 
   const [book, setBook] = useState<AddBook>({
