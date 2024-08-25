@@ -6,6 +6,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { fetchReviews } from "@/lib/actions";
 import { useEffect, useState } from "react";
 import BookInfo from "./book-info";
+import { deleteReview } from "@/lib/review";
 
 interface Response {
   reviews: Review[];
@@ -46,7 +47,13 @@ export default function BookModal({
           <Rating rating={averageRating} />
           <div className="space-y-4">
             {reviews &&
-              reviews.map((c) => <BookReview key={c.id} review={c} />)}
+              reviews.map((c) => (
+                <BookReview
+                  key={c.id}
+                  review={c}
+                  deleteHandler={() => deleteReview(selectedBook.id, c.id)}
+                />
+              ))}
           </div>
         </div>
       </div>

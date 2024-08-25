@@ -2,8 +2,13 @@ import axios from "axios";
 import { AddBook, Book } from "./types";
 
 export const fetchBooks = async () => {
-  const { data } = await axios.get("http://localhost:8080/books");
-  return data;
+  try {
+    const { data } = await axios.get("http://localhost:8080/books");
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data.");
+  }
 };
 
 export const fetchTags = async () => {
