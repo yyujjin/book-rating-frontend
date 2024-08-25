@@ -3,10 +3,10 @@ import { Button } from "../ui/button";
 import Rating from "../star-group";
 import BookReview from "../review/review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { fetchReviews } from "@/lib/actions";
+import { fetchReviews } from "@/lib/actions/review";
 import { useEffect, useState } from "react";
 import BookInfo from "./book-info";
-import { deleteReview } from "@/lib/review";
+import { deleteReview } from "@/lib/actions/review";
 
 interface Response {
   reviews: Review[];

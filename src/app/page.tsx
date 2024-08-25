@@ -26,7 +26,7 @@ To read more about using these font, please visit the Next.js documentation:
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import SearchInput from "@/components/search-input";
-import { fetchBooks } from "@/lib/actions";
+import { fetchBooks } from "@/lib/actions/book";
 import BookList from "@/components/book/book-list";
 import BookAddModal from "@/components/book/book-add-modal";
 

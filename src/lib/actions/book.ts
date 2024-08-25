@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AddBook, Book } from "./types";
+import { AddBook, Book } from "../types";
 
 export const fetchBooks = async () => {
   try {
@@ -9,16 +9,6 @@ export const fetchBooks = async () => {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch data.");
   }
-};
-
-export const fetchTags = async () => {
-  const { data } = await axios.get("http://localhost:8080/tags");
-  return data;
-};
-
-export const fetchReviews = async (bookId: number) => {
-  const { data } = await axios.get(`api/books/${bookId}/reviews`);
-  return data;
 };
 
 export const postBook = async (book: AddBook) => {

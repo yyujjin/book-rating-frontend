@@ -7,7 +7,7 @@ import FilePenIcon from "../icons/file-pen";
 
 import { useState } from "react";
 import BookForm from "./book-form";
-import { deleteBook, patchBook } from "@/lib/actions";
+import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 
 export default function BookCard({

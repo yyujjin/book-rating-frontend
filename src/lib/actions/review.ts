@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export const fetchReviews = async (bookId: number) => {
+  const { data } = await axios.get(`api/books/${bookId}/reviews`);
+  return data;
+};
+
 export const deleteReview = async (bookId: number, reviewId: number) => {
   try {
     await axios.delete(`api/books/${bookId}/reviews/${reviewId}`);

@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { postBook } from "@/lib/actions";
+import { postBook } from "@/lib/actions/book";
 import { AddBook } from "@/lib/types";
 import { useState } from "react";
 import BookForm from "./book-form";
