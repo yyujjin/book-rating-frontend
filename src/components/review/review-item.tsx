@@ -6,22 +6,26 @@ import type { Fn, Review } from "@/lib/types";
 import Rating from "../star-group";
 import { useState } from "react";
 import ReviewEditForm from "./review-edit-form";
+import { patchReview } from "@/lib/actions/review";
 
 export default function BookReview({
+  bookId,
   review,
   deleteHandler,
 }: {
+  bookId: number;
   review: Review;
   deleteHandler: Fn;
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const onClose = () => {
+  const onCancel = () => {
     setIsEditMode(false);
   };
 
-  const onSave = () => {
-    alert("save");
+  const onSave = (formReview: Review) => {
+    patchReview(bookId, { ...formReview, rating: Number(formReview.rating) });
+    onCancel();
   };
 
   return (
@@ -55,7 +59,7 @@ export default function BookReview({
           </div>
         </div>
         {isEditMode ? (
-          <ReviewEditForm review={review} onClose={onClose} onSave={onSave} />
+          <ReviewEditForm review={review} onCancel={onCancel} onSave={onSave} />
         ) : (
           <p className="text-sm leading-relaxed line-clamp-3">
             {review.reviewText}

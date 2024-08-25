@@ -3,31 +3,45 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 export default function ReviewEditForm({
   review,
-  onClose,
+  onCancel,
   onSave,
 }: {
   review: Review;
-  onClose: Fn;
-  onSave: Fn;
+  onCancel: Fn;
+  onSave: (review: Review) => void;
 }) {
+  const [formReview, setFromReview] = useState({ ...review });
+  const onChange = (e) => {
+    setFromReview({ ...formReview, [e.target.name]: e.target.value });
+  };
   return (
     <form action="" className="space-y-2">
       <div>
         <Label>rating</Label>
-        <Input type="number" defaultValue={review.rating} />
+        <Input
+          type="number"
+          name="rating"
+          value={formReview.rating}
+          onChange={onChange}
+        />
       </div>
       <div>
         <Label>review</Label>
-        <Textarea defaultValue={review.reviewText} />
+        <Textarea
+          value={formReview.reviewText}
+          name="reviewText"
+          onChange={onChange}
+        />
       </div>
       <div className="flex gap-2 justify-end">
-        <Button type="submit" variant="outline" onClick={onClose}>
+        <Button type="submit" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="button" onClick={onSave}>
+        <Button type="button" onClick={() => onSave(formReview)}>
           Save
         </Button>
       </div>

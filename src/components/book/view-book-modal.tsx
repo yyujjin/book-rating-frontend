@@ -50,6 +50,7 @@ export default function BookModal({
               reviews.map((c) => (
                 <BookReview
                   key={c.id}
+                  bookId={selectedBook.id}
                   review={c}
                   deleteHandler={() => deleteReview(selectedBook.id, c.id)}
                 />
