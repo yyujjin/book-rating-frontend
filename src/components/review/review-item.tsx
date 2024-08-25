@@ -4,6 +4,8 @@ import { Button } from "../ui/button";
 import TrashIcon from "../icons/trash";
 import type { Fn, Review } from "@/lib/types";
 import Rating from "../star-group";
+import { useState } from "react";
+import ReviewEditForm from "./review-edit-form";
 
 export default function BookReview({
   review,
@@ -12,6 +14,16 @@ export default function BookReview({
   review: Review;
   deleteHandler: Fn;
 }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const onClose = () => {
+    setIsEditMode(false);
+  };
+
+  const onSave = () => {
+    alert("save");
+  };
+
   return (
     <div className="flex items-start gap-4">
       <Avatar className="w-8 h-8 border mt-2">
@@ -26,6 +38,7 @@ export default function BookReview({
               size="sm"
               variant="ghost"
               className="text-muted-foreground hover:bg-muted/10"
+              onClick={() => setIsEditMode(true)}
             >
               <FilePenIcon className="w-4 h-4" />
               <span className="sr-only">Edit</span>
@@ -41,9 +54,13 @@ export default function BookReview({
             </Button>
           </div>
         </div>
-        <p className="text-sm leading-relaxed line-clamp-3">
-          {review.reviewText}
-        </p>
+        {isEditMode ? (
+          <ReviewEditForm review={review} onClose={onClose} onSave={onSave} />
+        ) : (
+          <p className="text-sm leading-relaxed line-clamp-3">
+            {review.reviewText}
+          </p>
+        )}
       </div>
     </div>
   );

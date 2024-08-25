@@ -1,7 +1,7 @@
 import { Book, Review } from "@/lib/types";
 import { Button } from "../ui/button";
 import Rating from "../star-group";
-import BookReview from "./review-item";
+import BookReview from "../review/review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { fetchReviews } from "@/lib/actions";
 import { useEffect, useState } from "react";
