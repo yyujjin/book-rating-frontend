@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function ReviewEditForm({
   review,
@@ -15,7 +15,7 @@ export default function ReviewEditForm({
   onSave: (review: Review) => void;
 }) {
   const [formReview, setFromReview] = useState({ ...review });
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFromReview({ ...formReview, [e.target.name]: e.target.value });
   };
   return (

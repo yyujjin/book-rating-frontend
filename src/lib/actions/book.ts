@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AddBook, Book } from "../types";
+import { instance } from "../axios";
 
 export const fetchBooks = async () => {
   try {
