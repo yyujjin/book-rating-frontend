@@ -6,6 +6,21 @@ export const fetchReviews = async (bookId: number) => {
   return data;
 };
 
+export const postReview = async (bookId: number, review: Review) => {
+  try {
+    await axios.post(`api/books/${bookId}/reviews`, review);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      if (err.response.status === 400) {
+        throw new Error("존재하지 않는 책입니다.");
+      }
+    } else {
+      console.error(err);
+      throw new Error("Network Error");
+    }
+  }
+};
+
 export const patchReview = async (bookId: number, review: Review) => {
   try {
     await axios.patch(`api/books/${bookId}/reviews/${review.id}`, review);

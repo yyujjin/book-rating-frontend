@@ -1,8 +1,15 @@
 import { Book } from "@/lib/types";
 import Image from "next/image";
 import TagGroup from "../tag-group";
+import Rating from "../star-group";
 
-export default function BookInfo({ selectedBook }: { selectedBook: Book }) {
+export default function BookInfo({
+  selectedBook,
+  averageRating,
+}: {
+  selectedBook: Book;
+  averageRating: number;
+}) {
   return (
     <div>
       <Image
@@ -14,6 +21,7 @@ export default function BookInfo({ selectedBook }: { selectedBook: Book }) {
         style={{ aspectRatio: "500/700", objectFit: "cover" }}
       />
       <h2 className="text-2xl font-bold mt-4">{selectedBook.title}</h2>
+      <Rating rating={averageRating} />
       <div className="flex flex-wrap gap-2 text-sm text-muted-foreground mt-2">
         <TagGroup tags={selectedBook.tags} />
       </div>
