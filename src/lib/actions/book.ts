@@ -1,10 +1,9 @@
 import axios from "axios";
 import { AddBook, Book } from "../types";
-import { instance } from "../axios";
 
 export const fetchBooks = async () => {
   try {
-    const { data } = await axios.get("http://localhost:8080/books");
+    const { data } = await axios.get(`api/books`);
     return data;
   } catch (error) {
     console.error("Database Error:", error);

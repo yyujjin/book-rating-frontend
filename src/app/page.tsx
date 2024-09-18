@@ -26,12 +26,10 @@ To read more about using these font, please visit the Next.js documentation:
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import SearchInput from "@/components/search-input";
-import { fetchBooks } from "@/lib/actions/book";
 import BookList from "@/components/book/book-list";
 import BookAddModal from "@/components/book/book-add-modal";
 
 export default async function Home() {
-  const books = await fetchBooks();
   return (
     <div className="bg-gradient-to-br from-primary to-secondary min-h-screen">
       <header className="flex items-center justify-between px-4 md:px-6 py-4">
@@ -49,7 +47,7 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <BookAddModal />
-          <BookList books={books} />
+          <BookList />
         </div>
       </div>
     </div>
