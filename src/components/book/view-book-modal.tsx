@@ -1,4 +1,4 @@
-import { Book, Review } from "@/lib/types";
+import { AddReview, Book, Review } from "@/lib/types";
 import { Button } from "../ui/button";
 import Rating from "../star-group";
 import BookReview from "../review/review-item";
@@ -33,7 +33,7 @@ export default function BookModal({
     });
   }, [selectedBook.id]);
 
-  const onSave = (formReview: Review) => {
+  const onSave = (formReview: AddReview) => {
     postReview(selectedBook.id, {
       ...formReview,
       rating: Number(formReview.rating),
@@ -66,7 +66,7 @@ export default function BookModal({
             </Button>
           </div>
           {showAddForm && (
-            <ReviewEditForm
+            <ReviewEditForm<AddReview>
               review={{ rating: 0, reviewText: "" }}
               onSave={onSave}
               onCancel={() => alert("cancel")}

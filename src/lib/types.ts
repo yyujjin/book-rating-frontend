@@ -19,7 +19,9 @@ export interface Review {
   id: number;
   rating: number;
   reviewText: string;
-  updateAt: Date;
+  updateAt?: Date;
 }
+
+export type AddReview = Omit<Review, "id"> 
 
 export type Fn = () => void;

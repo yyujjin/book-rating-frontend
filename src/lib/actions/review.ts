@@ -1,12 +1,12 @@
 import axios from "axios";
-import { Review } from "../types";
+import { AddReview, Review } from "../types";
 
 export const fetchReviews = async (bookId: number) => {
   const { data } = await axios.get(`api/books/${bookId}/reviews`);
   return data;
 };
 
-export const postReview = async (bookId: number, review: Review) => {
+export const postReview = async (bookId: number, review: AddReview) => {
   try {
     await axios.post(`api/books/${bookId}/reviews`, review);
   } catch (err) {

@@ -1,20 +1,20 @@
-import { Fn, Review } from "@/lib/types";
+import { AddReview, Fn, Review } from "@/lib/types";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { ChangeEvent, useState } from "react";
 
-export default function ReviewEditForm({
+export default function ReviewEditForm<T extends Partial<Review>>({
   review,
   onCancel,
   onSave,
 }: {
-  review: Review;
+  review: T;
   onCancel: Fn;
-  onSave: (review: Review) => void;
+  onSave: (review: T) => void;
 }) {
-  const [formReview, setFromReview] = useState({ ...review });
+  const [formReview, setFromReview] = useState<T>({ ...review });
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFromReview({ ...formReview, [e.target.name]: e.target.value });
   };
