@@ -1,6 +1,6 @@
-import axios from "axios";
+import axiosClient from "../axios";
 
 export const fetchTags = async () => {
-  const { data } = await axios.get("http://localhost:8080/tags");
+  const { data } = await axiosClient.get("http://localhost:8080/tags");
   return data;
 };

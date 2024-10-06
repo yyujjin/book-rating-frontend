@@ -1,9 +1,10 @@
 import axios from "axios";
 import { AddBook, Book } from "../types";
+import axiosClient from "../axios";
 
 export const fetchBooks = async () => {
   try {
-    const { data } = await axios.get(`api/books`);
+    const { data } = await axiosClient.get(`books`);
     return data;
   } catch (error) {
     console.error("Database Error:", error);
@@ -13,7 +14,7 @@ export const fetchBooks = async () => {
 
 export const postBook = async (book: AddBook) => {
   try {
-    await axios.post(`api/books`, book);
+    await axiosClient.post(`books`, book);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 409) {
@@ -28,7 +29,7 @@ export const postBook = async (book: AddBook) => {
 
 export const patchBook = async (book: Book) => {
   try {
-    await axios.patch(`api/books/${book.id}`, book);
+    await axiosClient.patch(`books/${book.id}`, book);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
@@ -43,7 +44,7 @@ export const patchBook = async (book: Book) => {
 
 export const deleteBook = async (bookId: number) => {
   try {
-    await axios.delete(`api/books/${bookId}`);
+    await axiosClient.delete(`books/${bookId}`);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {

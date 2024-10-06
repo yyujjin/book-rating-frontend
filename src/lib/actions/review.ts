@@ -1,14 +1,15 @@
 import axios from "axios";
 import { AddReview, Review } from "../types";
+import axiosClient from "../axios";
 
 export const fetchReviews = async (bookId: number) => {
-  const { data } = await axios.get(`api/books/${bookId}/reviews`);
+  const { data } = await axiosClient.get(`books/${bookId}/reviews`);
   return data;
 };
 
 export const postReview = async (bookId: number, review: AddReview) => {
   try {
-    await axios.post(`api/books/${bookId}/reviews`, review);
+    await axiosClient.post(`books/${bookId}/reviews`, review);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
@@ -23,7 +24,7 @@ export const postReview = async (bookId: number, review: AddReview) => {
 
 export const patchReview = async (bookId: number, review: Review) => {
   try {
-    await axios.patch(`api/books/${bookId}/reviews/${review.id}`, review);
+    await axiosClient.patch(`books/${bookId}/reviews/${review.id}`, review);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
@@ -38,7 +39,7 @@ export const patchReview = async (bookId: number, review: Review) => {
 
 export const deleteReview = async (bookId: number, reviewId: number) => {
   try {
-    await axios.delete(`api/books/${bookId}/reviews/${reviewId}`);
+    await axiosClient.delete(`books/${bookId}/reviews/${reviewId}`);
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
