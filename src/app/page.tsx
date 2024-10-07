@@ -27,7 +27,7 @@ To read more about using these font, please visit the Next.js documentation:
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import SearchInput from "@/components/search-input";
 import BookList from "@/components/book/book-list";
-import BookAddModal from "@/components/book/book-add-modal";
+import BookAdd from "@/components/book/book-add";
 
 export default async function Home() {
   return (
@@ -46,7 +46,7 @@ export default async function Home() {
           <SearchInput />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <BookAddModal />
+          <BookAdd />
           <BookList />
         </div>
       </div>

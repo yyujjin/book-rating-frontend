@@ -13,8 +13,9 @@ import { postBook } from "@/lib/actions/book";
 import { AddBook } from "@/lib/types";
 import { useState } from "react";
 import BookForm from "./book-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function BookAddModal() {
+export default function BookAdd() {
   const [open, setOpen] = useState(false);
 
   const [book, setBook] = useState<AddBook>({
@@ -26,18 +27,31 @@ export default function BookAddModal() {
 
   const onSubmit = async () => {
     try {
-      await postBook(book);
+      mutation.mutate(book);
+      // await postBook(book);
       setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
   };
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: postBook,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+    },
+  });
   return (
     <>
-      <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer">
+      <div
+        onClick={() => setOpen(true)}
+        className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
+      >
         <div className="flex items-center justify-center h-full">
           <Button
-            onClick={() => setOpen(true)}
             size="lg"
             variant="ghost"
             className="transition-transform duration-300 text-gray-700 hover:bg-primary/10 group-hover:scale-125 group-hover:text-gray-800"
