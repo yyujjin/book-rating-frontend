@@ -27,8 +27,12 @@ export default function BookAdd() {
 
   const onSubmit = async () => {
     try {
+      if (!book.title || !book.isbn) {
+        alert("값을 입력하세요");
+        return;
+      }
+
       mutation.mutate(book);
-      // await postBook(book);
       setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);

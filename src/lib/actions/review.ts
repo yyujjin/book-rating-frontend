@@ -28,7 +28,13 @@ export const postReview = async ({
   }
 };
 
-export const patchReview = async (bookId: number, review: Review) => {
+export const patchReview = async ({
+  bookId,
+  review,
+}: {
+  bookId: number;
+  review: Review;
+}) => {
   try {
     await axiosClient.patch(`books/${bookId}/reviews/${review.id}`, review);
   } catch (err) {

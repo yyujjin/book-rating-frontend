@@ -9,6 +9,7 @@ import { useState } from "react";
 import BookForm from "./book-form";
 import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function BookCard({
   book,
@@ -21,9 +22,17 @@ export default function BookCard({
 
   const [formData, setFormData] = useState(book);
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: patchBook,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+    },
+  });
+
   const onSubmit = async () => {
     try {
-      await patchBook(formData);
+      mutation.mutate(formData);
       setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);

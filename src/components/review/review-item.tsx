@@ -6,7 +6,7 @@ import type { Fn, Review } from "@/lib/types";
 import Rating from "../star-group";
 import { useState } from "react";
 import ReviewEditForm from "./review-edit-form";
-import { patchReview } from "@/lib/actions/review";
+import { useReview } from "@/lib/hooks/review";
 
 export default function BookReview({
   bookId,
@@ -23,8 +23,12 @@ export default function BookReview({
     setIsEditMode(false);
   };
 
+  const { updateReview } = useReview();
   const onSave = (formReview: Review) => {
-    patchReview(bookId, { ...formReview, rating: Number(formReview.rating) });
+    updateReview.mutate({
+      bookId,
+      review: { ...formReview, rating: Number(formReview.rating) },
+    });
     onCancel();
   };
 
