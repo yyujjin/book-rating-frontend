@@ -1,13 +1,13 @@
 import { AddReview, Book, Review } from "@/lib/types";
 import { Button } from "../ui/button";
-import Rating from "../star-group";
 import BookReview from "../review/review-item";
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { fetchReviews, postReview } from "@/lib/actions/review";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
 import ReviewEditForm from "../review/review-edit-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Response {
   reviews: Review[];
@@ -21,23 +21,38 @@ export default function BookModal({
   selectedBook: Book;
   setSelectedBook: (selectedBook: Book | null) => void;
 }) {
-  const [reviews, setReviews] = useState<Review[]>();
-  const [averageRating, setAverageRating] = useState(0);
-
   const [showAddForm, setShowAddForm] = useState(false);
 
-  useEffect(() => {
-    fetchReviews(selectedBook.id).then((res: Response) => {
-      setReviews(res.reviews);
-      setAverageRating(res.averageRating);
-    });
-  }, [selectedBook.id]);
+  const { isPending, isError, data, error } = useQuery<Response>({
+    queryKey: ["reviews"],
+    queryFn: () => fetchReviews(selectedBook.id),
+  });
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: postReview,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
 
   const onSave = (formReview: AddReview) => {
-    postReview(selectedBook.id, {
-      ...formReview,
-      rating: Number(formReview.rating),
+    const { rating } = formReview;
+    if (rating < 0 || rating > 5) {
+      alert("0 ~ 5 사이의 값만 입력 가능합니다.");
+      return;
+    }
+
+    mutation.mutate({
+      bookId: selectedBook.id,
+      review: {
+        ...formReview,
+        rating: Number(formReview.rating),
+      },
     });
+
     // onCancel(); TODO:
   };
 
@@ -52,7 +67,10 @@ export default function BookModal({
         >
           <Cross2Icon className="w-5 h-5" />
         </Button>
-        <BookInfo selectedBook={selectedBook} averageRating={averageRating} />
+        <BookInfo
+          selectedBook={selectedBook}
+          averageRating={data?.averageRating || 0}
+        />
         <div className="space-y-4">
           <div className="flex gap-2 items-center">
             <h2 className="font-bold text-xl">Reviews</h2>
@@ -73,8 +91,8 @@ export default function BookModal({
             />
           )}
           <div className="space-y-4">
-            {reviews &&
-              reviews.map((c) => (
+            {data?.reviews &&
+              data?.reviews.map((c) => (
                 <BookReview
                   key={c.id}
                   bookId={selectedBook.id}

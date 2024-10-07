@@ -7,7 +7,13 @@ export const fetchReviews = async (bookId: number) => {
   return data;
 };
 
-export const postReview = async (bookId: number, review: AddReview) => {
+export const postReview = async ({
+  bookId,
+  review,
+}: {
+  bookId: number;
+  review: AddReview;
+}) => {
   try {
     await axiosClient.post(`books/${bookId}/reviews`, review);
   } catch (err) {

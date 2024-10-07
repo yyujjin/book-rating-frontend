@@ -27,6 +27,8 @@ export default function ReviewEditForm<T extends Partial<Review>>({
           name="rating"
           value={formReview.rating}
           onChange={onChange}
+          min={0}
+          max={5}
         />
       </div>
       <div>
