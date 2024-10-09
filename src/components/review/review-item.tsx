@@ -66,7 +66,7 @@ export default function BookReview({
           <ReviewEditForm review={review} onCancel={onCancel} onSave={onSave} />
         ) : (
           <p className="text-sm leading-relaxed line-clamp-3">
-            {review.reviewText}
+            {review.content}
           </p>
         )}
       </div>
