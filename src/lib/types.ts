@@ -18,10 +18,15 @@ export interface Tag {
 export interface Review {
   id: number;
   rating: number;
-  reviewText: string;
+  content: string;
   updateAt?: Date;
 }
 
-export type AddReview = Omit<Review, "id"> 
+export type AddReview = Omit<Review, "id">;
 
 export type Fn = () => void;
+
+export interface Tag {
+  id: number;
+  name: string;
+}

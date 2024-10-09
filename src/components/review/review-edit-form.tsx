@@ -34,8 +34,8 @@ export default function ReviewEditForm<T extends Partial<Review>>({
       <div>
         <Label>review</Label>
         <Textarea
-          value={formReview.reviewText}
-          name="reviewText"
+          value={formReview.content}
+          name="content"
           onChange={onChange}
         />
       </div>

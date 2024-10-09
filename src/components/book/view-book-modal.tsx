@@ -85,9 +85,9 @@ export default function BookModal({
           </div>
           {showAddForm && (
             <ReviewEditForm<AddReview>
-              review={{ rating: 0, reviewText: "" }}
+              review={{ rating: 0, content: "" }}
               onSave={onSave}
-              onCancel={() => alert("cancel")}
+              onCancel={() => setShowAddForm(false)}
             />
           )}
           <div className="space-y-4">
