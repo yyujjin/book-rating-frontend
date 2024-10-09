@@ -25,3 +25,8 @@ export interface Review {
 export type AddReview = Omit<Review, "id">;
 
 export type Fn = () => void;
+
+export interface Tag {
+  id: number;
+  name: string;
+}

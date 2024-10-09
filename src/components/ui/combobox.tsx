@@ -18,33 +18,30 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useQuery } from "@tanstack/react-query";
+import axiosClient from "@/lib/axios";
+import { Tag } from "@/lib/types";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+interface TagOption {
+  value: string;
+  label: string;
+}
 
-export function ComboboxDemo({ ...props }) {
+export function TagCombobox({ ...props }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+
+  const fetchTags = async (): Promise<TagOption[]> => {
+    const { data } = await axiosClient.get<Tag[]>("/tags");
+    return data.map((d) => ({ value: d.id + "", label: d.name }));
+  };
+
+  const { data: tags } = useQuery({
+    queryKey: ["getTags"],
+    queryFn: fetchTags,
+  });
+
+  if (!tags || !tags.length) return null;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,22 +53,23 @@ export function ComboboxDemo({ ...props }) {
           {...props}
         >
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
+            ? tags.find((tag) => tag.value === value)?.label
+            : "Select tags..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" {...props}>
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search tags..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No tag found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {tags.map((tag) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={tag.value}
+                  value={tag.value}
                   onSelect={(currentValue) => {
+                    props.changeTag(currentValue);
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
@@ -79,10 +77,10 @@ export function ComboboxDemo({ ...props }) {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === tag.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  {tag.label}
                 </CommandItem>
               ))}
             </CommandGroup>
