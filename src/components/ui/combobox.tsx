@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Cross, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ interface TagOption {
 
 export function TagCombobox({ ...props }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [tagIds, setTagIds] = React.useState<string[]>([]);
 
   const fetchTags = async (): Promise<TagOption[]> => {
     const { data } = await axiosClient.get<Tag[]>("/tags");
@@ -52,15 +52,23 @@ export function TagCombobox({ ...props }) {
           aria-expanded={open}
           {...props}
         >
-          {value
-            ? tags.find((tag) => tag.value === value)?.label
-            : "Select tags..."}
+          <div className="overflow-hidden text-ellipsis">
+            {tagIds.length
+              ? tags
+                  .filter((tag) => tagIds.includes(tag.value))
+                  .map((t) => t.label)
+                  .join(", ")
+              : "Select tags..."}
+          </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" {...props}>
         <Command>
-          <CommandInput placeholder="Search tags..." />
+          <CommandInput
+            placeholder="Search tags..."
+            onInput={(e) => console.log(e)}
+          />
           <CommandList>
             <CommandEmpty>No tag found.</CommandEmpty>
             <CommandGroup>
@@ -68,16 +76,21 @@ export function TagCombobox({ ...props }) {
                 <CommandItem
                   key={tag.value}
                   value={tag.value}
+                  keywords={[tag.label]}
                   onSelect={(currentValue) => {
-                    props.changeTag(currentValue);
-                    setValue(currentValue === value ? "" : currentValue);
+                    const newTags = tagIds.includes(currentValue)
+                      ? tagIds.filter((v) => v !== currentValue)
+                      : tagIds.concat(currentValue);
+
+                    props.changeTag(newTags);
+                    setTagIds(newTags);
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === tag.value ? "opacity-100" : "opacity-0"
+                      tagIds.includes(tag.value) ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {tag.label}

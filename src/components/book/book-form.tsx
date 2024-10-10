@@ -17,10 +17,10 @@ export default function BookForm<T extends Book | AddBook>({
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const changeTag = (id: string) => {
+  const changeTag = (tagIds: string[]) => {
     setFormData({
       ...formData,
-      tagIds: [Number(id)],
+      tagIds: tagIds.map(Number),
     });
   };
   return (
