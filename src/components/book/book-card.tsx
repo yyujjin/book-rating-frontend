@@ -82,7 +82,7 @@ export default function BookCard({
           <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
             <TagGroup tags={book.tags} />
           </div>
-          <Rating rating={book.rating} />
+          <Rating rating={book.average} />
         </div>
       </div>
       <BookEditModal
