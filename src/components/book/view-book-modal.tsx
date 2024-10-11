@@ -24,7 +24,7 @@ export default function BookModal({
   const [showAddForm, setShowAddForm] = useState(false);
 
   const { isPending, isError, data, error } = useQuery<Response>({
-    queryKey: ["reviews"],
+    queryKey: ["reviews", selectedBook],
     queryFn: () => fetchReviews(selectedBook.id),
   });
 
