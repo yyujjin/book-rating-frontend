@@ -22,7 +22,7 @@ export default function BookAdd() {
     title: "",
     isbn: "",
     tagIds: [],
-    rating: 1,
+    average: 1,
   });
 
   const onSubmit = async () => {
