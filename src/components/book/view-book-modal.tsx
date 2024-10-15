@@ -91,7 +91,7 @@ export default function BookModal({
             />
           )}
           <div className="space-y-4">
-            {data?.reviews &&
+            {data?.reviews.length ? (
               data?.reviews.map((c) => (
                 <BookReview
                   key={c.id}
@@ -99,7 +99,12 @@ export default function BookModal({
                   review={c}
                   deleteHandler={() => deleteReview(selectedBook.id, c.id)}
                 />
-              ))}
+              ))
+            ) : (
+              <div className="text-gray-500 italic">
+                There’s no review yet. Be the first to write one! ✍️
+              </div>
+            )}
           </div>
         </div>
       </div>
