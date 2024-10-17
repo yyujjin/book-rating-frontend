@@ -1,6 +1,6 @@
 // This is the root layout component for your Next.js app.
 // Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
-import { Manrope } from "next/font/google";
+import { Manrope, Nanum_Gothic } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import Providers from "./providers";
@@ -17,13 +17,25 @@ const fontBody = Manrope({
   variable: "--font-body",
 });
 
+const nanumGothic = Nanum_Gothic({
+  subsets: ["latin"], // 사용할 문자 셋
+  weight: ["400", "700"], // 폰트 굵기
+  variable: "--font-body",
+});
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={cn("antialiased", fontHeading.variable, fontBody.variable)}
+        className={cn(
+          "antialiased",
+          fontHeading.variable,
+          nanumGothic.variable
+        )}
       >
-        <Providers>{children}</Providers>
+        <div className="flex flex-col items-center justify-center bg-gradient-to-br from-primary to-secondary min-h-screen">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
