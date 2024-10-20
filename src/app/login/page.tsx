@@ -8,11 +8,9 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import axiosClient from "@/lib/axios";
 import { cx } from "class-variance-authority";
 import { Dancing_Script } from "next/font/google";
-import { useRouter } from "next/navigation";
-import { ILogin } from "@/lib/types";
+import Link from "next/link";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
@@ -20,21 +18,6 @@ const dancingScript = Dancing_Script({
 });
 
 export default function LoginPage() {
-  const router = useRouter();
-
-  const handleGoogleLogin = async () => {
-    try {
-      const { data } = await axiosClient.post<ILogin>("/login");
-      localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      router.push("/");
-    } catch (e) {
-      alert("Login Error");
-      console.log(e);
-    }
-  };
-
   const handleKakaoLogin = () => {
     // Implement Kakao login logic here
     console.log("Kakao login clicked");
@@ -55,13 +38,15 @@ export default function LoginPage() {
         <Button
           variant="outline"
           className={cx("w-full gap-2 font-bold")}
-          onClick={handleGoogleLogin}
+          asChild
         >
-          <img
-            width={16}
-            src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
-          />
-          Google로 로그인
+          <Link href="http://localhost:8080/oauth2/authorization/google">
+            <img
+              width={16}
+              src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+            />
+            Google로 로그인
+          </Link>
         </Button>
         {/* <Button
           variant="outline"

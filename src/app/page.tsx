@@ -16,7 +16,8 @@ import { Dancing_Script } from "next/font/google";
 import Link from "next/link";
 // import useLocalStorage from "@/lib/hooks/useLocalStorage"; // TODO:
 import { useEffect, useState } from "react";
-import { IUser } from "@/lib/types";
+import { ILogin, IUser } from "@/lib/types";
+import axiosClient from "@/lib/axios";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
@@ -26,16 +27,20 @@ const dancingScript = Dancing_Script({
 export default function Home() {
   const [user, setUser] = useState<IUser | null>(null);
 
-  useEffect(() => {
-    const userStorage = localStorage.getItem("user") as string;
-    if (userStorage) {
-      setUser(JSON.parse(userStorage));
+  const getUserInfo = async () => {
+    try {
+      const { data } = await axiosClient.post<ILogin>("loginInfo");
+      setUser(data.user);
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  useEffect(() => {
+    getUserInfo();
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setUser(null);
   };
 
