@@ -12,6 +12,7 @@ import axiosClient from "@/lib/axios";
 import { cx } from "class-variance-authority";
 import { Dancing_Script } from "next/font/google";
 import { useRouter } from "next/navigation";
+import { ILogin } from "@/lib/types";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
@@ -22,11 +23,11 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleGoogleLogin = async () => {
-    router.push("/"); // TODO:
-
     try {
-      const { data } = await axiosClient.post("/login");
-      console.log(data);
+      const { data } = await axiosClient.post<ILogin>("/login");
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       router.push("/");
     } catch (e) {
       alert("Login Error");

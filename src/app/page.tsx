@@ -13,8 +13,10 @@ import BookAdd from "@/components/book/book-add";
 import { Button } from "@/components/ui/button";
 import { cx } from "class-variance-authority";
 import { Dancing_Script } from "next/font/google";
-import { useState } from "react";
 import Link from "next/link";
+// import useLocalStorage from "@/lib/hooks/useLocalStorage"; // TODO:
+import { useEffect, useState } from "react";
+import { IUser } from "@/lib/types";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
@@ -22,10 +24,19 @@ const dancingScript = Dancing_Script({
 });
 
 export default function Home() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    const userStorage = localStorage.getItem("user") as string;
+    if (userStorage) {
+      setUser(JSON.parse(userStorage));
+    }
+  }, []);
 
   const handleLogout = () => {
-    setIsLogin(false);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
   };
 
   return (
@@ -35,11 +46,11 @@ export default function Home() {
           Book Rating
         </div>
         <div>
-          {isLogin ? (
+          {user ? (
             <div className="flex gap-2 items-center">
               <Avatar className="h-8 w-8 border">
-                <AvatarImage src="/placeholder-user.jpg" alt="User" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarImage src={user.avatar} alt="User" />
+                <AvatarFallback>{user.username}</AvatarFallback>
               </Avatar>
               <Button
                 variant="outline"
