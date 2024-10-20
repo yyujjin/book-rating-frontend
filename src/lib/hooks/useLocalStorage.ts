@@ -14,29 +14,25 @@ export type ValueResolver<T> = T | ((prevPayload: T) => T);
  * 다른 타입의 값 저장 시 에러를 발생시켜 안전하게 차단합니다.
  */
 const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const isClient = typeof window !== "undefined"; // 브라우저 확인
-  const storageManager = useRef(createLocalStorageManager<T>(key, isClient));
-
+  const storageManager = useRef(createLocalStorageManager<T>(key));
   const [storedValue, setStoredValue] = useState<T>(() => {
-    if (!isClient) return initialValue; // 서버에서는 초기값 반환
-
     const item = storageManager.current.getItem();
+
+    // 초기값 타입이 다른 경우, 전달된 초기값을 저장하고 반환.
     if (!item || !validators.isSameType(item, initialValue)) {
       storageManager.current.setItem(initialValue, initialValue);
+
       return initialValue;
     }
 
     return item;
   });
 
-  const setValue = useCallback(
-    (value: ValueResolver<T>) => {
-      setStoredValue((prevValue) => {
-        return storageManager.current.setItem(value, prevValue);
-      });
-    },
-    [isClient] // 브라우저에서만 실행
-  );
+  const setValue = useCallback((value: ValueResolver<T>) => {
+    setStoredValue((prevValue) => {
+      return storageManager.current.setItem(value, prevValue);
+    });
+  }, []);
 
   const handleStorageChange = useCallback(
     (event: StorageEvent) => {
@@ -48,43 +44,47 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
   );
 
   useEffect(() => {
-    if (!isClient) return; // 서버에서는 이벤트 리스너 추가하지 않음
+    if (!validators.isClient()) return;
 
     window.addEventListener("storage", handleStorageChange);
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [handleStorageChange, isClient]);
+  }, [handleStorageChange]);
 
   return [storedValue, setValue] as const;
 };
 
-const createLocalStorageManager = <T>(key: string, isClient: boolean) => {
-  const storage = isClient ? window.localStorage : null; // 클라이언트에서만 localStorage 사용
+const createLocalStorageManager = <T>(key: string) => {
+  const storage = new LocalStorage();
 
   const manager = {
     setItem(currentValue: ValueResolver<T>, prevValue: T): T {
-      if (!storage) return prevValue;
+      const ERROR_SET_MESSAGE = "Failed to set item in localStorage";
 
       try {
         const newValue = validators.resolveValue(currentValue, prevValue);
+
         validators.validateTypeConsistency(newValue, prevValue);
         storage.setItem(key, JSON.stringify(newValue));
 
         return newValue;
       } catch (error) {
-        console.warn("Failed to set item in localStorage", error);
+        console.warn(ERROR_SET_MESSAGE, error);
+
         return prevValue;
       }
     },
     getItem(): T | null {
-      if (!storage) return null;
+      const ERROR_GET_MESSAGE = "Failed to get item in localStorage";
 
       try {
         const item = storage.getItem(key);
+
         return item ? JSON.parse(item) : null;
       } catch (error) {
-        console.warn("Failed to get item from localStorage", error);
+        console.warn(ERROR_GET_MESSAGE, error);
+
         return null;
       }
     },
