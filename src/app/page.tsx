@@ -17,6 +17,7 @@ import Link from "next/link";
 // import useLocalStorage from "@/lib/hooks/useLocalStorage"; // TODO:
 import { useEffect, useState } from "react";
 import { IUser } from "@/lib/types";
+import useLocalStorage from "@/lib/hooks/useLocalStorage";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
@@ -24,19 +25,13 @@ const dancingScript = Dancing_Script({
 });
 
 export default function Home() {
-  const [user, setUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    const userStorage = localStorage.getItem("user") as string;
-    if (userStorage) {
-      setUser(JSON.parse(userStorage));
-    }
-  }, []);
+  const [user] = useLocalStorage<IUser | null>("user", null);
+  const [token] = useLocalStorage("token", "");
+  console.log(token);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setUser(null);
   };
 
   return (
