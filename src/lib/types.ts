@@ -30,3 +30,15 @@ export interface Tag {
   id: number;
   name: string;
 }
+
+export interface IUser {
+  id: number;
+  email: string;
+  username: string;
+  avatar: string;
+}
+
+export interface ILogin {
+  accessToken: string;
+  user: IUser;
+}
