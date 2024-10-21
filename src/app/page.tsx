@@ -16,7 +16,7 @@ import { Dancing_Script } from "next/font/google";
 import Link from "next/link";
 // import useLocalStorage from "@/lib/hooks/useLocalStorage"; // TODO:
 import { useEffect, useState } from "react";
-import { ILogin, IUser } from "@/lib/types";
+import { IUser } from "@/lib/types";
 import axiosClient from "@/lib/axios";
 
 const dancingScript = Dancing_Script({
@@ -29,8 +29,8 @@ export default function Home() {
 
   const getUserInfo = async () => {
     try {
-      const { data } = await axiosClient.post<ILogin>("loginInfo");
-      setUser(data.user);
+      const { data } = await axiosClient.post<IUser>("loginInfo");
+      setUser(data);
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +54,10 @@ export default function Home() {
           {user ? (
             <div className="flex gap-2 items-center">
               <Avatar className="h-8 w-8 border">
-                <AvatarImage src={user.avatar} alt="User" />
+                <AvatarImage
+                  src={user.avatar || "/placeholder-user.jpg"}
+                  alt="User"
+                />
                 <AvatarFallback>{user.username}</AvatarFallback>
               </Avatar>
               <Button

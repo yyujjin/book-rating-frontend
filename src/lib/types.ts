@@ -37,8 +37,3 @@ export interface IUser {
   username: string;
   avatar: string;
 }
-
-export interface ILogin {
-  accessToken: string;
-  user: IUser;
-}
