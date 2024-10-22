@@ -40,7 +40,8 @@ export default function Home() {
     getUserInfo();
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await axiosClient.post("logout");
     setUser(null);
   };
 
