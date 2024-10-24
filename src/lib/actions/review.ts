@@ -20,6 +20,8 @@ export const postReview = async ({
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
         throw new Error("존재하지 않는 책입니다.");
+      } else if (err.response.status === 401) {
+        throw new Error("로그인이 필요합니다.");
       }
     } else {
       console.error(err);
@@ -41,6 +43,8 @@ export const patchReview = async ({
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
         throw new Error("존재하지 않는 책입니다.");
+      } else if (err.response.status === 401) {
+        throw new Error("로그인이 필요합니다.");
       }
     } else {
       console.error(err);
@@ -56,6 +60,8 @@ export const deleteReview = async (bookId: number, reviewId: number) => {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
         throw new Error("존재하지 않는 책입니다.");
+      } else if (err.response.status === 401) {
+        throw new Error("로그인이 필요합니다.");
       }
     } else {
       console.error(err);

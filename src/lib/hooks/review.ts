@@ -8,6 +8,9 @@ export const useReview = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
+    onError: (err) => {
+      alert(err);
+    },
   });
 
   return { updateReview };

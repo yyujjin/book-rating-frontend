@@ -36,6 +36,9 @@ export default function BookModal({
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
+    onError: (err) => {
+      alert(err);
+    },
   });
 
   const onSave = (formReview: AddReview) => {
@@ -52,8 +55,14 @@ export default function BookModal({
         rating: Number(formReview.rating),
       },
     });
+  };
 
-    // onCancel(); TODO:
+  const onDelete = async (bookId: number, reviewId: number) => {
+    try {
+      await deleteReview(bookId, reviewId);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -97,7 +106,7 @@ export default function BookModal({
                   key={c.id}
                   bookId={selectedBook.id}
                   review={c}
-                  deleteHandler={() => deleteReview(selectedBook.id, c.id)}
+                  deleteHandler={() => onDelete(selectedBook.id, c.id)}
                 />
               ))
             ) : (
