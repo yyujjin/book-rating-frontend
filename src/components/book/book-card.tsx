@@ -11,9 +11,10 @@ import BookForm from "./book-form";
 import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import BookModal from "./view-book-modal";
 
 export default function BookCard({ book }: { book: Book }) {
-  // const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState(book);
@@ -89,6 +90,13 @@ export default function BookCard({ book }: { book: Book }) {
       >
         <BookForm formData={formData} setFormData={setFormData} editMode />
       </BookEditModal>
+
+      {selectedBook && (
+        <BookModal
+          selectedBook={selectedBook}
+          setSelectedBook={setSelectedBook}
+        />
+      )}
     </>
   );
 }
