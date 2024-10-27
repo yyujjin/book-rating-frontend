@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +14,10 @@ const dancingScript = Dancing_Script({
   subsets: ["latin"], // 사용할 문자 셋
   weight: ["400", "700"], // 폰트 굵기
 });
+
+export const metadata = {
+  title: "Login",
+};
 
 export default function LoginPage() {
   const handleKakaoLogin = () => {

@@ -23,6 +23,13 @@ const nanumGothic = Nanum_Gothic({
   variable: "--font-body",
 });
 
+export const metadata = {
+  title: {
+    template: "%s | Book Rating",
+    default: "Book Rating",
+  },
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
