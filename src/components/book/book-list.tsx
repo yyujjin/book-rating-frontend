@@ -1,35 +1,29 @@
-"use client";
-
 import { useState } from "react";
 import BookCard from "./book-card";
 import BookModal from "./view-book-modal";
 import { Book } from "@/lib/types";
 import { fetchBooks } from "@/lib/actions/book";
-import { useQuery } from "@tanstack/react-query";
+import axiosClient, { ssrAxiosClient } from "@/lib/axios";
 
-export default function BookList() {
-  const {
-    isPending,
-    isError,
-    data: books,
-    error,
-  } = useQuery<Book[]>({
-    queryKey: ["books"],
-    queryFn: fetchBooks,
-  });
+async function getBooks(): Promise<Book[]> {
+  const { data } = await ssrAxiosClient.get("/books");
+  return data;
+}
 
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+export default async function BookList() {
+  const books = await getBooks();
+
   return (
     <>
       {books?.map((book, index) => (
-        <BookCard key={index} book={book} setSelectedBook={setSelectedBook} />
+        <BookCard key={index} book={book} />
       ))}
-      {selectedBook && (
+      {/* {selectedBook && (
         <BookModal
           selectedBook={selectedBook}
           setSelectedBook={setSelectedBook}
         />
-      )}
+      )} */}
     </>
   );
 }

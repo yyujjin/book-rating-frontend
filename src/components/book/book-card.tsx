@@ -1,3 +1,4 @@
+"use client";
 import { Book } from "@/lib/types";
 import Rating from "../star-group";
 import Image from "next/image";
@@ -11,13 +12,8 @@ import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function BookCard({
-  book,
-  setSelectedBook,
-}: {
-  book: Book;
-  setSelectedBook: (book: Book) => void;
-}) {
+export default function BookCard({ book }: { book: Book }) {
+  // const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState(book);
