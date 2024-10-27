@@ -1,13 +1,14 @@
 import { AddReview, Book, Review } from "@/lib/types";
 import { Button } from "../ui/button";
 import BookReview from "../review/review-item";
-import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { fetchReviews, postReview } from "@/lib/actions/review";
 import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
 import ReviewEditForm from "../review/review-edit-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent } from "../ui/card";
 
 interface Response {
   reviews: Review[];
@@ -42,12 +43,6 @@ export default function BookModal({
   });
 
   const onSave = (formReview: AddReview) => {
-    const { rating } = formReview;
-    if (rating < 0 || rating > 5) {
-      alert("0 ~ 5 사이의 값만 입력 가능합니다.");
-      return;
-    }
-
     mutation.mutate({
       bookId: selectedBook.id,
       review: {
@@ -80,27 +75,15 @@ export default function BookModal({
           selectedBook={selectedBook}
           averageRating={data?.averageRating || 0}
         />
-        <div className="space-y-4">
-          <div className="flex gap-2 items-center">
-            <h2 className="font-bold text-xl">Reviews</h2>
-            <Button
-              size={"sm"}
-              className="gap-1"
-              onClick={() => setShowAddForm(true)}
-            >
-              <PlusIcon />
-              Add Review
-            </Button>
-          </div>
-          {showAddForm && (
-            <ReviewEditForm<AddReview>
-              review={{ rating: 0, content: "" }}
-              onSave={onSave}
-              onCancel={() => setShowAddForm(false)}
-            />
-          )}
-          <div className="space-y-4">
-            {data?.reviews.length ? (
+        {/* 우측: 후기 목록 및 작성 */}
+        <div className="flex flex-col ">
+          <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+          <div className="flex-grow overflow-auto mb-4 pr-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            {data?.reviews.length === 0 ? (
+              <div className="text-gray-500 italic">
+                There’s no review yet. Be the first to write one! ✍️
+              </div>
+            ) : (
               data?.reviews.map((c) => (
                 <BookReview
                   key={c.id}
@@ -109,12 +92,30 @@ export default function BookModal({
                   deleteHandler={() => onDelete(selectedBook.id, c.id)}
                 />
               ))
-            ) : (
-              <div className="text-gray-500 italic">
-                There’s no review yet. Be the first to write one! ✍️
-              </div>
             )}
           </div>
+
+          {false ? (
+            <Card>
+              <CardContent className="p-4 text-center">
+                <p className="text-lg font-semibold text-gray-600">
+                  리뷰는 한 번만 작성 가능합니다.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="bg-white">
+              <CardContent className="p-4">
+                <h4 className="text-lg font-semibold mb-2">새 후기 작성</h4>
+
+                <ReviewEditForm<AddReview>
+                  review={{ rating: 0, content: "" }}
+                  onSave={onSave}
+                  onCancel={() => setShowAddForm(false)}
+                />
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
