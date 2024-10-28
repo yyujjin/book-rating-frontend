@@ -12,6 +12,7 @@ import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import BookModal from "./view-book-modal";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 
 export default function BookCard({ book }: { book: Book }) {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -92,10 +93,18 @@ export default function BookCard({ book }: { book: Book }) {
       </BookEditModal>
 
       {selectedBook && (
-        <BookModal
-          selectedBook={selectedBook}
-          setSelectedBook={setSelectedBook}
-        />
+        <Dialog
+          open={!!selectedBook}
+          onOpenChange={() => setSelectedBook(null)}
+        >
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent className="max-w-4xl lg:max-w-7xl bg-white">
+            <BookModal
+              selectedBook={selectedBook}
+              setSelectedBook={setSelectedBook}
+            />
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );

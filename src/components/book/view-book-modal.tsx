@@ -61,63 +61,53 @@ export default function BookModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-20">
-      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl lg:max-w-7xl max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-3 right-3 text-muted-foreground hover:bg-muted/10"
-          onClick={() => setSelectedBook(null)}
-        >
-          <Cross2Icon className="w-5 h-5" />
-        </Button>
-        <div className="flex flex-col gap-5">
-          <BookInfo
-            selectedBook={selectedBook}
-            averageRating={data?.averageRating || 0}
-          />
-          {false ? (
-            <Card>
-              <CardContent className="p-4 text-center">
-                <p className="text-lg font-semibold text-gray-600">
-                  리뷰는 한 번만 작성 가능합니다.
-                </p>
-              </CardContent>
-            </Card>
+    <div className=" w-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="flex flex-col gap-5">
+        <BookInfo
+          selectedBook={selectedBook}
+          averageRating={data?.averageRating || 0}
+        />
+        {false ? (
+          <Card>
+            <CardContent className="p-4 text-center">
+              <p className="text-lg font-semibold text-gray-600">
+                리뷰는 한 번만 작성 가능합니다.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <h4 className="text-lg font-semibold mb-2">새 후기 작성</h4>
+
+              <ReviewEditForm<AddReview>
+                review={{ rating: 0, content: "" }}
+                onSave={onSave}
+                onCancel={() => setShowAddForm(false)}
+              />
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* 우측: 후기 목록 및 작성 */}
+      <div className="flex flex-col ">
+        <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+        <div className="flex-grow overflow-auto mb-4 pr-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          {data?.reviews.length === 0 ? (
+            <div className="text-gray-500 italic">
+              There’s no review yet. Be the first to write one! ✍️
+            </div>
           ) : (
-            <Card className="bg-white">
-              <CardContent className="p-4">
-                <h4 className="text-lg font-semibold mb-2">새 후기 작성</h4>
-
-                <ReviewEditForm<AddReview>
-                  review={{ rating: 0, content: "" }}
-                  onSave={onSave}
-                  onCancel={() => setShowAddForm(false)}
-                />
-              </CardContent>
-            </Card>
+            data?.reviews.map((c) => (
+              <BookReview
+                key={c.id}
+                bookId={selectedBook.id}
+                review={c}
+                deleteHandler={() => onDelete(selectedBook.id, c.id)}
+              />
+            ))
           )}
-        </div>
-
-        {/* 우측: 후기 목록 및 작성 */}
-        <div className="flex flex-col ">
-          <h3 className="text-xl font-semibold mb-4">Reviews</h3>
-          <div className="flex-grow overflow-auto mb-4 pr-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            {data?.reviews.length === 0 ? (
-              <div className="text-gray-500 italic">
-                There’s no review yet. Be the first to write one! ✍️
-              </div>
-            ) : (
-              data?.reviews.map((c) => (
-                <BookReview
-                  key={c.id}
-                  bookId={selectedBook.id}
-                  review={c}
-                  deleteHandler={() => onDelete(selectedBook.id, c.id)}
-                />
-              ))
-            )}
-          </div>
         </div>
       </div>
     </div>
