@@ -14,7 +14,6 @@ const nextConfig = {
   images: {
     domains: ["search1.kakaocdn.net"], // 외부 이미지 호스트 추가
   },
-  staticPageGenerationTimeout: 2000,
 };
 
 export default nextConfig;
