@@ -1,10 +1,10 @@
 // app/api/books/route.js
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const KAKAO_API = "https://dapi.kakao.com/v3/search/book";
 
-export async function GET(request: { url: string | URL }) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const keyword = searchParams.get("keyword");
 
