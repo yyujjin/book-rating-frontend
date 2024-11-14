@@ -42,7 +42,9 @@ export default function LoginPage() {
           className={cx("w-full gap-2 font-bold")}
           asChild
         >
-          <Link href="http://localhost:8080/oauth2/authorization/google">
+          <Link
+            href={`${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`}
+          >
             <img
               width={16}
               src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
