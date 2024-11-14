@@ -22,16 +22,17 @@ const dancingScript = Dancing_Script({
 export default function Home() {
   return (
     <>
-      <header className="w-full flex items-center justify-between px-4 md:px-6 py-4">
+      <header className="container w-full flex items-center justify-between px-4 md:px-6 py-4">
         <div className={cx(dancingScript.className, "text-3xl font-bold")}>
           Book Rating
         </div>
         <Auth />
       </header>
       <div className="container mx-auto py-8 px-4 md:px-6">
-        <div className="flex items-center justify-between mb-6">
+        {/* TODO: */}
+        {/* <div className="flex items-center justify-between mb-6">
           <SearchInput />
-        </div>
+        </div> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer">
             <Link href="/add-book">

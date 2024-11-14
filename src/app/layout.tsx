@@ -35,12 +35,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body
         className={cn(
-          "antialiased",
+          "antialiased bg-gradient-to-br from-primary to-secondary ",
           fontHeading.variable,
           nanumGothic.variable
         )}
       >
-        <div className="flex flex-col items-center justify-center bg-gradient-to-br from-primary to-secondary min-h-screen">
+        <div className="flex flex-col items-center min-h-screen">
           <Providers>{children}</Providers>
         </div>
       </body>
