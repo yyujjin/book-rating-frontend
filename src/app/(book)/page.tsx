@@ -7,27 +7,13 @@
 import SearchInput from "@/components/search-input";
 import BookList from "@/components/book/book-list";
 import BookAdd from "@/components/book/book-add";
-import { cx } from "class-variance-authority";
-import { Dancing_Script } from "next/font/google";
-import Auth from "@/components/auth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 
-const dancingScript = Dancing_Script({
-  subsets: ["latin"], // 사용할 문자 셋
-  weight: ["400", "700"], // 폰트 굵기
-});
-
 export default function Home() {
   return (
     <>
-      <header className="container w-full flex items-center justify-between px-4 md:px-6 py-4">
-        <div className={cx(dancingScript.className, "text-3xl font-bold")}>
-          Book Rating
-        </div>
-        <Auth />
-      </header>
       <div className="container mx-auto py-8 px-4 md:px-6">
         {/* TODO: */}
         {/* <div className="flex items-center justify-between mb-6">

@@ -45,3 +45,18 @@
     @apply font-heading;
   }
 }
+
+.privacy-policy {
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+  p {
+    @apply py-5;
+  }
+  ul {
+    @apply px-5 py-2;
+  }
+}
