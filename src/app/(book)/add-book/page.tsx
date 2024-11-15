@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBook } from "@/lib/actions/book";
 import { KakaoResponseBook } from "@/lib/types";
 import { getIsbn } from "@/lib/utils";
+import DebounceInput from "@/components/ui/debounce-input";
 
 const AddBook = () => {
   const [data, setData] = useState<KakaoResponseBook[]>();
@@ -49,11 +50,13 @@ const AddBook = () => {
     }
   };
 
-  const handleChange = async ({
-    target: { value },
-  }: ChangeEvent<HTMLInputElement>) => {
-    if (value.length < 3) return;
-    const { data } = await axios.get(`/api/books?keyword=${value}`);
+  const handleChange = async (keyword: string) => {
+    if (!keyword) {
+      setData([]);
+      return;
+    }
+
+    const { data } = await axios.get(`/api/books?keyword=${keyword}`);
     setData(
       data.documents.map((d: KakaoResponseBook) => ({
         ...d,
@@ -64,12 +67,7 @@ const AddBook = () => {
 
   return (
     <div className="w-full md:w-3/4 lg:w-1/2">
-      <Input
-        type="search"
-        placeholder="Search books..."
-        className="flex-1 bg-white rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-        onChange={handleChange}
-      />
+      <DebounceInput changeCallback={handleChange} />
       <ul className="mt-5 flex flex-col gap-2">
         {data &&
           data.map((d) => (
