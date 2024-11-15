@@ -6,7 +6,6 @@
 
 import SearchInput from "@/components/search-input";
 import BookList from "@/components/book/book-list";
-import BookAdd from "@/components/book/book-add";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";

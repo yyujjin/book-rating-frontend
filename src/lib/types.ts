@@ -6,8 +6,8 @@ export interface Book {
   average: number;
 }
 
-export type AddBook = Omit<Book, "id" | "tags"> & {
-  tagIds: number[];
+export type AddBook = Omit<Book, "id" | "tags" | "average"> & {
+  tagIds?: number[];
 };
 
 export interface Tag {
