@@ -50,18 +50,18 @@ export default function BookCard({ book }: { book: Book }) {
   return (
     <>
       <div
-        className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
+        className="flex flex-col overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
         onClick={() => setSelectedBook(book)}
       >
         <Image
-          src="/placeholder.svg"
+          src="/placeholder.svg" // TODO:
           alt={book.title}
           width={500}
           height={700}
           className="object-cover w-full h-80"
           style={{ aspectRatio: "500/700", objectFit: "cover" }}
         />
-        <div className="p-4 bg-white">
+        <div className="flex-1 p-4 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">{book.title}</h3>
             <Button

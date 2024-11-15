@@ -4,11 +4,24 @@ export interface Book {
   isbn: string;
   tags: Tag[];
   average: number;
+  bookCoverUrl: string;
 }
 
-export type AddBook = Omit<Book, "id" | "tags" | "average"> & {
-  tagIds?: number[];
-};
+export interface AddBook {
+  title: string;
+  isbn: string;
+  tagIds: number[];
+  bookCoverUrl: string;
+}
+
+export interface KakaoResponseBook {
+  authors: string[];
+  title: string;
+  publisher: string;
+  thumbnail: string;
+  isbn: string;
+  contents: string;
+}
 
 export interface Tag {
   id: number;

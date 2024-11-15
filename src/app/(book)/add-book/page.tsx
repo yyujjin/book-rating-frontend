@@ -14,41 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBook } from "@/lib/actions/book";
-
-interface Book {
-  authors: string[];
-  title: string;
-  publisher: string;
-  thumbnail: string;
-  isbn: string;
-  contents: string;
-}
+import { KakaoResponseBook } from "@/lib/types";
+import { getIsbn } from "@/lib/utils";
 
 const AddBook = () => {
-  const [data, setData] = useState<Book[]>([
-    {
-      authors: ["기시미 이치로", "고가 후미타케"],
-      contents:
-        "51주 연속 역대 최장기간 베스트셀러 1위를 기록하며 대한민국 베스트셀러 역사를 새롭게 쓴 《미움받을 용기》가 보다 현실적인 문제에 대한 답을 안고 돌아왔다. 《미움받을 용기 2》는 아들러 심리학을 대중적으로 명쾌히 정리한 ‘용기 2부작’의 완결편으로, ‘행복으로 가는 길’을 제시한 전작에 이어 ‘행복으로 가는 구체적인 방법’에 대해 다룬다.  자유롭고 행복한 삶에 대한 가르침을 받고 부푼 기대를 안고 변화를 결심했지만, 수년 후 ‘중대한 고민’이",
-      isbn: "1168340780 9791168340787",
-      publisher: "인플루엔셜",
-      thumbnail:
-        "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6252918%3Ftimestamp%3D20240518160512",
-      title: "미움받을 용기 2(200만 부 기념 스페셜 에디션)",
-    },
-  ]);
+  const [data, setData] = useState<KakaoResponseBook[]>();
 
   const [open, setOpen] = useState(false);
-
-  const onSubmit = async (book: Book) => {
-    if (!confirm("책을 추가하시겠습니까?")) return;
-    try {
-      mutation.mutate(book);
-      setOpen(false);
-    } catch (err) {
-      if (err instanceof Error) alert(err.message);
-    }
-  };
 
   const queryClient = useQueryClient();
 
@@ -60,12 +32,34 @@ const AddBook = () => {
     },
   });
 
+  const onSubmit = async (book: KakaoResponseBook) => {
+    if (!confirm("책을 추가하시겠습니까?")) return;
+    try {
+      const { isbn, title, thumbnail } = book;
+      mutation.mutate({
+        isbn: getIsbn(isbn),
+        title,
+        bookCoverUrl: thumbnail,
+        tagIds: [],
+      });
+
+      setOpen(false);
+    } catch (err) {
+      if (err instanceof Error) alert(err.message);
+    }
+  };
+
   const handleChange = async ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     if (value.length < 3) return;
     const { data } = await axios.get(`/api/books?keyword=${value}`);
-    setData(data.documents.map((d: Book) => ({ ...d, authors: d.authors })));
+    setData(
+      data.documents.map((d: KakaoResponseBook) => ({
+        ...d,
+        authors: d.authors,
+      }))
+    );
   };
 
   return (

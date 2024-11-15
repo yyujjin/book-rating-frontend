@@ -2,6 +2,7 @@ import axios from "axios";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
+// TODO: CORS 해결하려고 두 가지 분리한 것 같은데 시간 지나니 헷갈린다
 const axiosClient = axios.create({
   baseURL: apiBaseUrl,
   headers: {
