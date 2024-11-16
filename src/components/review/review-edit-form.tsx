@@ -14,15 +14,24 @@ export default function ReviewEditForm<T extends Partial<Review>>({
   onCancel: Fn;
   onSave: (review: T) => void;
 }) {
-  const [formReview, setFromReview] = useState<T>({ ...review });
+  const [formReview, setFormReview] = useState<T>({ ...review });
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFromReview({ ...formReview, [e.target.name]: e.target.value });
+    setFormReview({ ...formReview, [e.target.name]: e.target.value });
   };
-  const handleRatingChange = (rating: number) => {
-    setFromReview((prev) => ({ ...prev, rating }));
+  const handleRatingChange = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    rating: number
+  ) => {
+    e.stopPropagation();
+    setFormReview((prev) => ({ ...prev, rating }));
+  };
+
+  const handleSave = () => {
+    onSave(formReview);
+    setFormReview(() => ({ rating: 0, content: "" } as T));
   };
   return (
-    <form action="" className="space-y-2">
+    <div className="space-y-2">
       <div>
         <Label>rating</Label>
         <div className="flex items-center mb-1">
@@ -31,12 +40,12 @@ export default function ReviewEditForm<T extends Partial<Review>>({
               key={star}
               variant="ghost"
               size="sm"
-              className={`p-0 hover:text-yellow-400 ${
+              className={`p-0 hover:text-yellow-400 focus-visible:ring-opacity-0 ${
                 star <= (formReview.rating ?? 0)
                   ? "text-yellow-400"
                   : "text-gray-300"
               }`}
-              onClick={() => handleRatingChange(star)}
+              onClick={(e) => handleRatingChange(e, star)}
             >
               <Star className="w-6 h-6 fill-current" />
             </Button>
@@ -56,10 +65,10 @@ export default function ReviewEditForm<T extends Partial<Review>>({
         {/* <Button type="submit" variant="outline" onClick={onCancel}>
           Cancel
         </Button> */}
-        <Button type="button" onClick={() => onSave(formReview)}>
+        <Button type="button" onClick={handleSave}>
           Save
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

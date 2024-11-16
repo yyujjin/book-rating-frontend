@@ -9,6 +9,7 @@ import { deleteReview } from "@/lib/actions/review";
 import ReviewEditForm from "../review/review-edit-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent } from "../ui/card";
+import { toast } from "@/lib/hooks/use-toast";
 
 interface Response {
   reviews: Review[];
@@ -50,6 +51,7 @@ export default function BookModal({
         rating: Number(formReview.rating),
       },
     });
+    toast({ title: "리뷰가 등록되었습니다." });
   };
 
   const onDelete = async (bookId: number, reviewId: number) => {

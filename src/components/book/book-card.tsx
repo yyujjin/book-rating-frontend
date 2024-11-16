@@ -110,7 +110,7 @@ export default function BookCard({ book }: { book: Book }) {
           </div>
         }
       />
-
+      {/* 책 상세보기 팝업 */}
       {selectedBook && (
         <Dialog
           open={!!selectedBook}
