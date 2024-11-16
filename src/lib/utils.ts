@@ -16,3 +16,10 @@ export const getIsbn = (raw: string) => {
   // ISBN-10과 ISBN-13 둘 다 가지거나 ISBN-13만 가질 수 있다.
   return isbnList[1];
 };
+
+export const validateSrc = (src: string) => {
+  if (!src || (!src.startsWith("/") && !src.startsWith("http"))) {
+    return "/placeholder.svg";
+  }
+  return src;
+};

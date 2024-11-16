@@ -41,7 +41,7 @@ const AddBook = () => {
         isbn: getIsbn(isbn),
         title,
         bookCoverUrl: thumbnail,
-        tagIds: [],
+        tags: [],
       });
 
       setOpen(false);

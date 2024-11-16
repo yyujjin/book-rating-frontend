@@ -10,7 +10,7 @@ export interface Book {
 export interface AddBook {
   title: string;
   isbn: string;
-  tagIds: number[];
+  tags: number[];
   bookCoverUrl: string;
 }
 

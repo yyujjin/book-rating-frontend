@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import TrashIcon from "../icons/trash";
 
 import { AlertDialog } from "@/components/ui/alert-dialog";
+import { validateSrc } from "@/lib/utils";
 
 export default function BookCard({ book }: { book: Book }) {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -62,28 +63,19 @@ export default function BookCard({ book }: { book: Book }) {
         onClick={() => setSelectedBook(book)}
       >
         <Image
-          src="/placeholder.svg" // TODO:
+          src={validateSrc(book.bookCoverUrl)}
           alt={book.title}
-          width={500}
-          height={700}
-          className="object-cover w-full h-80"
-          style={{ aspectRatio: "500/700", objectFit: "cover" }}
+          width={150}
+          height={150}
+          className="p-1 max-h-52 object-contain w-full bg-gradient-to-b from-gray-50 to-gray-100"
         />
-        <div className="flex-1 p-4 pr-2 bg-white">
-          <div className="flex items-start justify-between">
-            <h3 className="text-xl font-bold">{book.title}</h3>
-            {/* <Button TODO: 리뷰 팝업에서 태그 수정하도록 변경
-                size="sm"
-                variant="ghost"
-                className="text-muted-foreground hover:bg-muted/40 px-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOpen(true);
-                }}
-              >
-                <FilePenIcon className="w-4 h-4" />
-                <span className="sr-only">Edit</span>
-              </Button> */}
+        <div className="flex-1 p-4 pr-2 bg-white space-y-1">
+          <h3 className="text-sm font-bold truncate">{book.title}</h3>
+          <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+            <TagGroup tags={book.tags} />
+          </div>
+          <div className="flex justify-between items-center">
+            <Rating rating={book.average} />
             <Button
               size="sm"
               variant="ghost"
@@ -97,11 +89,6 @@ export default function BookCard({ book }: { book: Book }) {
               <span className="sr-only">Delete</span>
             </Button>
           </div>
-
-          <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-            <TagGroup tags={book.tags} />
-          </div>
-          <Rating rating={book.average} />
         </div>
       </div>
       {/* <BookEditModal
