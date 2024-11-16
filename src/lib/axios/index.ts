@@ -3,13 +3,14 @@ import axios from "axios";
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
 // TODO: CORS 해결하려고 두 가지 분리한 것 같은데 시간 지나니 헷갈린다
+// apiBaseUrl가 필요한가?
 const axiosClient = axios.create({
-  baseURL: apiBaseUrl,
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
-  // timeout: 5000,
-  withCredentials: true,
+  // 구글 심사 통과 대기로 인해 우선 인증 없이 서비스
+  // withCredentials: true, //인증 정보(쿠키) 포함
 });
 
 export const ssrAxiosClient = axios.create({
@@ -17,8 +18,7 @@ export const ssrAxiosClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // timeout: 5000,
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 export default axiosClient;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { AddBook, Book } from "../types";
 import axiosClient from "../axios";
 
-export const fetchBooks = async () => {
+export const fetchBooks = async (): Promise<Book[]> => {
   try {
     const { data } = await axiosClient.get(`books`);
     return data;

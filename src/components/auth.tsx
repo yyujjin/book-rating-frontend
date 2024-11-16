@@ -19,9 +19,10 @@ const Auth = () => {
     }
   };
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  // 구글 심사 동안 인증 없이 서비스
+  // useEffect(() => {
+  //   getUserInfo();
+  // }, []);
 
   const handleLogout = async () => {
     await axiosClient.post("logout");

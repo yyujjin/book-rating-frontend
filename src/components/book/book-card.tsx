@@ -29,6 +29,13 @@ export default function BookCard({ book }: { book: Book }) {
     },
   });
 
+  const mutationDelete = useMutation({
+    mutationFn: deleteBook,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+    },
+  });
+
   const onSubmit = async () => {
     try {
       mutation.mutate(formData);
@@ -42,7 +49,7 @@ export default function BookCard({ book }: { book: Book }) {
     if (!confirm(`정말 [${book.title}] 책을 삭제하시겠습니까?`)) return;
     try {
       // TODO: 관리자만 삭제할 수 있도록 개선
-      await deleteBook(book.id);
+      mutationDelete.mutate(book.id);
       setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);

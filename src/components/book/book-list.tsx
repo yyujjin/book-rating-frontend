@@ -1,14 +1,14 @@
+"use client";
+
 import BookCard from "./book-card";
-import { Book } from "@/lib/types";
-import { ssrAxiosClient } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
+import { fetchBooks } from "@/lib/actions/book";
 
-async function getBooks(): Promise<Book[]> {
-  const { data } = await ssrAxiosClient.get("/books");
-  return data;
-}
-
-export default async function BookList() {
-  const books = await getBooks();
+export default function BookList() {
+  const { data: books } = useQuery({
+    queryKey: ["books"],
+    queryFn: fetchBooks,
+  });
 
   return (
     <>

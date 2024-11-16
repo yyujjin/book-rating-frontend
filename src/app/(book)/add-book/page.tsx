@@ -56,7 +56,7 @@ const AddBook = () => {
       return;
     }
 
-    const { data } = await axios.get(`/api/books?keyword=${keyword}`);
+    const { data } = await axios.get(`/api/kakao/books?keyword=${keyword}`);
     setData(
       data.documents.map((d: KakaoResponseBook) => ({
         ...d,
