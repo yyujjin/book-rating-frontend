@@ -20,7 +20,7 @@ export default function Home() {
         </div> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer">
-            <Link href="/add-book">
+            <Link href="/books/add">
               <div className="flex items-center justify-center h-full">
                 <Button
                   size="lg"
