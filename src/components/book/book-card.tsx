@@ -13,6 +13,7 @@ import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import BookModal from "./view-book-modal";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import TrashIcon from "../icons/trash";
 
 export default function BookCard({ book }: { book: Book }) {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -40,6 +41,7 @@ export default function BookCard({ book }: { book: Book }) {
   const onDelete = async () => {
     if (!confirm(`정말 [${book.title}] 책을 삭제하시겠습니까?`)) return;
     try {
+      // TODO: 관리자만 삭제할 수 있도록 개선
       await deleteBook(book.id);
       setOpen(false);
     } catch (err) {
@@ -64,19 +66,32 @@ export default function BookCard({ book }: { book: Book }) {
         <div className="flex-1 p-4 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">{book.title}</h3>
+            {/* <Button TODO: 리뷰 팝업에서 태그 수정하도록 변경
+                size="sm"
+                variant="ghost"
+                className="text-muted-foreground hover:bg-muted/40 px-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(true);
+                }}
+              >
+                <FilePenIcon className="w-4 h-4" />
+                <span className="sr-only">Edit</span>
+              </Button> */}
             <Button
               size="sm"
               variant="ghost"
-              className="text-muted-foreground hover:bg-muted/40"
+              className="text-muted-foreground hover:bg-muted/40 px-1"
               onClick={(e) => {
                 e.stopPropagation();
-                setOpen(true);
+                onDelete();
               }}
             >
-              <FilePenIcon className="w-4 h-4" />
-              <span className="sr-only">Edit</span>
+              <TrashIcon className="w-4 h-4" />
+              <span className="sr-only">Delete</span>
             </Button>
           </div>
+
           <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
             <TagGroup tags={book.tags} />
           </div>
@@ -87,7 +102,6 @@ export default function BookCard({ book }: { book: Book }) {
         onSave={onSubmit}
         open={open}
         onOpenChange={() => setOpen(false)}
-        onDelete={onDelete}
       >
         <BookForm formData={formData} setFormData={setFormData} editMode />
       </BookEditModal>
