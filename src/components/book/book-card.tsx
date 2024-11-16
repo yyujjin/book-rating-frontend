@@ -4,7 +4,6 @@ import Rating from "../star-group";
 import Image from "next/image";
 import TagGroup from "../tag-group";
 import { Button } from "../ui/button";
-import FilePenIcon from "../icons/file-pen";
 
 import { useState } from "react";
 import BookForm from "./book-form";
@@ -14,6 +13,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import BookModal from "./view-book-modal";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import TrashIcon from "../icons/trash";
+
+import { AlertDialog } from "@/components/ui/alert-dialog";
 
 export default function BookCard({ book }: { book: Book }) {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -46,11 +47,9 @@ export default function BookCard({ book }: { book: Book }) {
   };
 
   const onDelete = async () => {
-    if (!confirm(`정말 [${book.title}] 책을 삭제하시겠습니까?`)) return;
     try {
       // TODO: 관리자만 삭제할 수 있도록 개선
       mutationDelete.mutate(book.id);
-      setOpen(false);
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
@@ -70,8 +69,8 @@ export default function BookCard({ book }: { book: Book }) {
           className="object-cover w-full h-80"
           style={{ aspectRatio: "500/700", objectFit: "cover" }}
         />
-        <div className="flex-1 p-4 bg-white">
-          <div className="flex items-center justify-between">
+        <div className="flex-1 p-4 pr-2 bg-white">
+          <div className="flex items-start justify-between">
             <h3 className="text-xl font-bold">{book.title}</h3>
             {/* <Button TODO: 리뷰 팝업에서 태그 수정하도록 변경
                 size="sm"
@@ -88,10 +87,10 @@ export default function BookCard({ book }: { book: Book }) {
             <Button
               size="sm"
               variant="ghost"
-              className="text-muted-foreground hover:bg-muted/40 px-1"
+              className="text-muted-foreground hover:bg-muted/40 px-2"
               onClick={(e) => {
                 e.stopPropagation();
-                onDelete();
+                setOpen(true);
               }}
             >
               <TrashIcon className="w-4 h-4" />
@@ -105,13 +104,25 @@ export default function BookCard({ book }: { book: Book }) {
           <Rating rating={book.average} />
         </div>
       </div>
-      <BookEditModal
+      {/* <BookEditModal
         onSave={onSubmit}
         open={open}
         onOpenChange={() => setOpen(false)}
       >
         <BookForm formData={formData} setFormData={setFormData} editMode />
-      </BookEditModal>
+      </BookEditModal> */}
+      <AlertDialog
+        open={open}
+        handleOpen={(state) => setOpen(state)}
+        handleAction={onDelete}
+        title="정말 책을 삭제하시겠습니까?"
+        description={
+          <div>
+            <span className="font-bold italic px-1">{book.title}</span>이(가)
+            삭제됩니다.
+          </div>
+        }
+      />
 
       {selectedBook && (
         <Dialog
