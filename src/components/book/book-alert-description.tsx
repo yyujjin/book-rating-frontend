@@ -8,10 +8,10 @@ const BookAlertDescription = ({
   action: "add" | "delete";
 }) => {
   return (
-    <div>
+    <>
       <span className="font-bold italic px-1">{title}</span>이(가){" "}
       {action === "delete" ? "삭제됩니다" : "추가됩니다"}.
-    </div>
+    </>
   );
 };
 

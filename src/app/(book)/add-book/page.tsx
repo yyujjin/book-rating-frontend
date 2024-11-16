@@ -1,8 +1,7 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import axios from "axios";
 import Image from "next/image";
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,66 +11,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postBook } from "@/lib/actions/book";
-import { KakaoResponseBook } from "@/lib/types";
-import { getIsbn } from "@/lib/utils";
 import DebounceInput from "@/components/ui/debounce-input";
-import { toast } from "@/lib/hooks/use-toast";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 import BookAlertDescription from "@/components/book/book-alert-description";
+import { useAddBook } from "@/lib/hooks/use-add-book";
 
 const AddBook = () => {
-  const [data, setData] = useState<KakaoResponseBook[]>();
-  const [selectedBook, setSelectedBook] = useState<KakaoResponseBook | null>(
-    null
-  );
-  const [open, setOpen] = useState(false);
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: postBook,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["books"] });
-    },
-  });
-
-  const onSubmit = async () => {
-    if (!selectedBook) return;
-    try {
-      const { isbn, title, thumbnail } = selectedBook;
-      mutation.mutate({
-        isbn: getIsbn(isbn),
-        title,
-        bookCoverUrl: thumbnail,
-        tags: [],
-      });
-
-      setOpen(false);
-      toast({
-        description: "책이 추가되었습니다.",
-      });
-    } catch (err) {
-      if (err instanceof Error) alert(err.message);
-    }
-  };
-
-  const handleChange = async (keyword: string) => {
-    if (!keyword) {
-      setData([]);
-      return;
-    }
-
-    const { data } = await axios.get(`/api/kakao/books?keyword=${keyword}`);
-    setData(
-      data.documents.map((d: KakaoResponseBook) => ({
-        ...d,
-        authors: d.authors,
-      }))
-    );
-  };
+  const { onSubmit, handleChange, data, selectedBook, setSelectedBook } =
+    useAddBook();
 
   return (
     <div className="w-full md:w-3/4 lg:w-1/2">
