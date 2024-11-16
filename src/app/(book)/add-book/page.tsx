@@ -17,6 +17,7 @@ import { postBook } from "@/lib/actions/book";
 import { KakaoResponseBook } from "@/lib/types";
 import { getIsbn } from "@/lib/utils";
 import DebounceInput from "@/components/ui/debounce-input";
+import { toast } from "@/lib/hooks/use-toast";
 
 const AddBook = () => {
   const [data, setData] = useState<KakaoResponseBook[]>();
@@ -45,6 +46,9 @@ const AddBook = () => {
       });
 
       setOpen(false);
+      toast({
+        description: "책이 추가되었습니다.",
+      });
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }

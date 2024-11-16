@@ -7,6 +7,7 @@ import Providers from "./providers";
 import { cx } from "class-variance-authority";
 import Auth from "@/components/auth";
 import Link from "next/link";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontHeading = Manrope({
   subsets: ["latin"],
@@ -60,6 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Auth />
           </header>
           <Providers>{children}</Providers>
+          <Toaster />
           <footer className="container flex justify-between w-full pb-5">
             <p>© 2024 Book Rating. All rights reserved.</p>
             <div className="flex gap-5 text-sm">
