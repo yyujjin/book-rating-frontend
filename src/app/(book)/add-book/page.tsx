@@ -18,10 +18,14 @@ import { KakaoResponseBook } from "@/lib/types";
 import { getIsbn } from "@/lib/utils";
 import DebounceInput from "@/components/ui/debounce-input";
 import { toast } from "@/lib/hooks/use-toast";
+import { AlertDialog } from "@/components/ui/alert-dialog";
+import BookAlertDescription from "@/components/book/book-alert-description";
 
 const AddBook = () => {
   const [data, setData] = useState<KakaoResponseBook[]>();
-
+  const [selectedBook, setSelectedBook] = useState<KakaoResponseBook | null>(
+    null
+  );
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -34,10 +38,10 @@ const AddBook = () => {
     },
   });
 
-  const onSubmit = async (book: KakaoResponseBook) => {
-    if (!confirm("책을 추가하시겠습니까?")) return;
+  const onSubmit = async () => {
+    if (!selectedBook) return;
     try {
-      const { isbn, title, thumbnail } = book;
+      const { isbn, title, thumbnail } = selectedBook;
       mutation.mutate({
         isbn: getIsbn(isbn),
         title,
@@ -86,7 +90,7 @@ const AddBook = () => {
                 <Row label="publisher" value={d.publisher} />
                 <Row label="isbn" value={d.isbn} />
               </div>
-              <Button onClick={() => onSubmit(d)}>Add</Button>
+              <Button onClick={() => setSelectedBook(d)}>Add</Button>
             </li>
           ))}
       </ul>
@@ -104,6 +108,18 @@ const AddBook = () => {
   </DialogFooter>
 </DialogContent>
 </Dialog> */}
+      <AlertDialog
+        open={!!selectedBook}
+        handleOpen={() => setSelectedBook(null)}
+        handleAction={onSubmit}
+        title="책을 추가하시겠습니까?"
+        description={
+          <BookAlertDescription
+            title={selectedBook?.title || ""}
+            action="add"
+          />
+        }
+      />
     </div>
   );
 };
