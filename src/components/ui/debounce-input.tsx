@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 import { Input } from "./input";
-import useDebounce from "@/lib/hooks/useDebounce";
+import { useDebounce } from "@frontend-opensource/use-react-hooks";
 
 const DebounceInput = ({
   changeCallback,

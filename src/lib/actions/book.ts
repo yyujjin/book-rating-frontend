@@ -4,7 +4,18 @@ import axiosClient from "../axios";
 
 export const fetchBooks = async (): Promise<Book[]> => {
   try {
-    const { data } = await axiosClient.get(`books`);
+    //const { data } = await axiosClient.get(`books`);
+
+    const data = [
+      {
+        id: 1,
+        title: "test",
+        isbn: "1",
+        tags: [],
+        average: 5,
+        bookCoverUrl: "",
+      },
+    ];
     return data;
   } catch (error) {
     console.error("Database Error:", error);
