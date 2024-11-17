@@ -15,7 +15,7 @@ export default function BookInfo({
   return (
     <div className="flex gap-5 items-center">
       <Image
-        src={validateSrc(selectedBook.bookCoverUrl)}
+        src={validateSrc(selectedBook.thumbnail)}
         alt={selectedBook.title}
         width={150}
         height={150}

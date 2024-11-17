@@ -27,17 +27,29 @@ export const useAddBook = () => {
     if (!selectedBook) return;
     try {
       const { isbn, title, thumbnail } = selectedBook;
-      mutation.mutate({
-        isbn: getIsbn(isbn),
-        title,
-        bookCoverUrl: thumbnail,
-        tags: [],
-      });
+      mutation.mutate(
+        {
+          isbn: getIsbn(isbn),
+          title,
+          thumbnail,
+          tags: [],
+        },
+        {
+          onSuccess: () => {
+            toast({
+              description: "책이 추가되었습니다.",
+            });
+          },
+          onError: () => {
+            toast({
+              description: "이미 등록된 책입니다.",
+              variant: "destructive",
+            });
+          },
+        }
+      );
 
       setOpen(false);
-      toast({
-        description: "책이 추가되었습니다.",
-      });
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }

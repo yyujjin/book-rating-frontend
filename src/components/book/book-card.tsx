@@ -16,6 +16,7 @@ import TrashIcon from "../icons/trash";
 
 import { AlertDialog } from "@/components/ui/alert-dialog";
 import { validateSrc } from "@/lib/utils";
+import { toast } from "@/lib/hooks/use-toast";
 
 export default function BookCard({ book }: { book: Book }) {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -50,7 +51,11 @@ export default function BookCard({ book }: { book: Book }) {
   const onDelete = async () => {
     try {
       // TODO: 관리자만 삭제할 수 있도록 개선
-      mutationDelete.mutate(book.id);
+      mutationDelete.mutate(book.id, {
+        onSuccess: () => {
+          toast({ title: "정상적으로 삭제되었습니다." });
+        },
+      });
     } catch (err) {
       if (err instanceof Error) alert(err.message);
     }
@@ -63,7 +68,7 @@ export default function BookCard({ book }: { book: Book }) {
         onClick={() => setSelectedBook(book)}
       >
         <Image
-          src={validateSrc(book.bookCoverUrl)}
+          src={validateSrc(book.thumbnail)}
           alt={book.title}
           width={150}
           height={150}

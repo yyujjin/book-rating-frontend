@@ -4,14 +4,14 @@ export interface Book {
   isbn: string;
   tags: Tag[];
   average: number;
-  bookCoverUrl: string;
+  thumbnail: string;
 }
 
 export interface AddBook {
   title: string;
   isbn: string;
   tags: number[];
-  bookCoverUrl: string;
+  thumbnail: string;
 }
 
 export interface KakaoResponseBook {
