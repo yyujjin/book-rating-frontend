@@ -15,6 +15,8 @@ import DebounceInput from "@/components/ui/debounce-input";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 import BookAlertDescription from "@/components/book/book-alert-description";
 import { useAddBook } from "@/lib/hooks/use-add-book";
+import ISBN from "isbn3";
+import { getIsbn } from "@/lib/utils";
 
 const AddBook = () => {
   const { onSubmit, handleChange, data, selectedBook, setSelectedBook } =
@@ -35,7 +37,10 @@ const AddBook = () => {
                 <Row label="title" value={d.title} />
                 <Row label="Authors" value={d.authors.join(", ")} />
                 <Row label="publisher" value={d.publisher} />
-                <Row label="isbn" value={d.isbn} />
+                <Row
+                  label="isbn"
+                  value={ISBN.hyphenate(getIsbn(d.isbn)) || getIsbn(d.isbn)}
+                />
               </div>
               <Button onClick={() => setSelectedBook(d)}>Add</Button>
             </li>
