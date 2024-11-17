@@ -1,14 +1,14 @@
 import { AddReview, Book, Review } from "@/lib/types";
-import { Button } from "../ui/button";
-import BookReview from "../review/review-item";
+import { Button } from "../../ui/button";
+import BookReview from "../../review/review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { fetchReviews, postReview } from "@/lib/actions/review";
 import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
-import ReviewForm from "../review/review-form";
+import ReviewForm from "../../review/review-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "../../ui/card";
 import { toast } from "@/lib/hooks/use-toast";
 
 interface Response {
@@ -24,6 +24,9 @@ export default function BookModal({
   setSelectedBook: (selectedBook: Book | null) => void;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [averageRating, setAverageRating] = useState(
+    selectedBook.averageRating
+  );
 
   const { isPending, isError, data, error } = useQuery<Response>({
     queryKey: ["reviews", selectedBook],
@@ -34,9 +37,9 @@ export default function BookModal({
 
   const mutation = useMutation({
     mutationFn: postReview,
-    onSuccess: () => {
-      // Invalidate and refetch
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      setAverageRating(data?.data.averageRating || 0);
     },
     onError: (err) => {
       alert(err);
@@ -65,10 +68,7 @@ export default function BookModal({
   return (
     <div className=" w-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="flex flex-col gap-5">
-        <BookInfo
-          selectedBook={selectedBook}
-          averageRating={selectedBook.averageRating}
-        />
+        <BookInfo selectedBook={selectedBook} averageRating={averageRating} />
         {false ? (
           <Card>
             <CardContent className="p-4 text-center">

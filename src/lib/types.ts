@@ -1,3 +1,4 @@
+// TODO: 정리
 export interface Book {
   id: number;
   title: string;
@@ -36,6 +37,11 @@ export interface Review {
 }
 
 export type AddReview = Omit<Review, "id">;
+
+export interface AddReviewResponse {
+  review: Review;
+  averageRating: number;
+}
 
 export type Fn = () => void;
 

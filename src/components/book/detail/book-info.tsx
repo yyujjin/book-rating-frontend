@@ -1,9 +1,9 @@
 import { Book } from "@/lib/types";
 import Image from "next/image";
-import TagGroup from "../tag-group";
-import Rating from "../star-group";
+import TagGroup from "../../tag-group";
+import Rating from "../../star-group";
 import { validateSrc } from "@/lib/utils";
-import { DialogTitle } from "../ui/dialog";
+import { DialogTitle } from "../../ui/dialog";
 
 export default function BookInfo({
   selectedBook,

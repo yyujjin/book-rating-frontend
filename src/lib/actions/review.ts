@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AddReview, Review } from "../types";
+import { AddReview, AddReviewResponse, Review } from "../types";
 import axiosClient from "../axios";
 
 export const fetchReviews = async (bookId: number) => {
@@ -15,7 +15,11 @@ export const postReview = async ({
   review: AddReview;
 }) => {
   try {
-    await axiosClient.post(`books/${bookId}/reviews`, review);
+    const result = await axiosClient.post<AddReviewResponse>(
+      `books/${bookId}/reviews`,
+      review
+    );
+    return result;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {

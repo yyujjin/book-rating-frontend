@@ -10,7 +10,7 @@ import BookForm from "./book-form";
 import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import BookModal from "./view-book-modal";
+import BookModal from "./detail/view-book-modal";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import TrashIcon from "../icons/trash";
 
