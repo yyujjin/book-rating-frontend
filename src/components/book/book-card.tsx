@@ -55,6 +55,12 @@ export default function BookCard({ book }: { book: Book }) {
         onSuccess: () => {
           toast({ title: "정상적으로 삭제되었습니다." });
         },
+        onError: (err: Error) => {
+          toast({
+            title: err.message,
+            variant: "destructive",
+          });
+        },
       });
     } catch (err) {
       if (err instanceof Error) alert(err.message);
@@ -109,10 +115,10 @@ export default function BookCard({ book }: { book: Book }) {
         handleAction={onDelete}
         title="정말 책을 삭제하시겠습니까?"
         description={
-          <div>
+          <>
             <span className="font-bold italic px-1">{book.title}</span>이(가)
             삭제됩니다.
-          </div>
+          </>
         }
       />
       {/* 책 상세보기 팝업 */}

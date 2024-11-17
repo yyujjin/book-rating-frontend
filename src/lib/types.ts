@@ -43,6 +43,10 @@ export interface AddReviewResponse {
   averageRating: number;
 }
 
+export interface DeleteReviewResponse {
+  averageRating: number;
+}
+
 export type Fn = () => void;
 
 export interface Tag {

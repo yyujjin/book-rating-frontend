@@ -49,7 +49,7 @@ export const deleteBook = async (bookId: number) => {
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
-        throw new Error("존재하지 않는 책입니다.");
+        throw new Error("리뷰가 등록된 책은 삭제할 수 없습니다.");
       }
     } else {
       console.error(err);

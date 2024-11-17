@@ -9,6 +9,8 @@ import ReviewForm from "./review-form";
 import { useReview } from "@/lib/hooks/review";
 import Tooltip from "../ui/tooltip";
 
+const IS_ADMIN = process.env.NEXT_PUBLIC_IS_ADMIN === "true" ? false : true;
+
 export default function BookReview({
   bookId,
   review,
@@ -54,15 +56,19 @@ export default function BookReview({
               <span className="sr-only">Edit</span>
             </Button> */}
 
-            <Tooltip content="관리자 권한만 삭제할 수 있습니다.">
+            <Tooltip
+              content={!IS_ADMIN ? "관리자 권한만 삭제할 수 있습니다." : ""}
+            >
               <Button
                 size="sm"
                 variant="ghost"
-                className="text-muted-foreground hover:bg-muted/10 disabled:cursor-not-allowed"
+                className="text-muted-foreground hover:bg-muted/10"
                 onClick={deleteHandler}
-                disabled={true}
+                disabled={!IS_ADMIN}
               >
-                <TrashIcon className="w-4 h-4 cursor-not-allowed" />
+                <TrashIcon
+                  className={`w-4 h-4 ${!IS_ADMIN ? "cursor-not-allowed" : ""}`}
+                />
                 <span className="sr-only">Delete</span>
               </Button>
             </Tooltip>

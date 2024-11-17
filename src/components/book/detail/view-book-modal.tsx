@@ -10,6 +10,7 @@ import ReviewForm from "../../review/review-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent } from "../../ui/card";
 import { toast } from "@/lib/hooks/use-toast";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 
 interface Response {
   reviews: Review[];
@@ -27,6 +28,7 @@ export default function BookModal({
   const [averageRating, setAverageRating] = useState(
     selectedBook.averageRating
   );
+  const [selectedReview, setSelectedReview] = useState<number | null>(null);
 
   const { isPending, isError, data, error } = useQuery<Response>({
     queryKey: ["reviews", selectedBook],
@@ -40,9 +42,19 @@ export default function BookModal({
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
       setAverageRating(data?.data.averageRating || 0);
+      toast({ title: "리뷰가 등록되었습니다." });
     },
     onError: (err) => {
       alert(err);
+    },
+  });
+
+  const mutationDelete = useMutation({
+    mutationFn: deleteReview,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      setAverageRating(data?.data.averageRating || 0);
+      toast({ title: "리뷰가 삭제되었습니다." });
     },
   });
 
@@ -54,15 +66,6 @@ export default function BookModal({
         rating: Number(formReview.rating),
       },
     });
-    toast({ title: "리뷰가 등록되었습니다." });
-  };
-
-  const onDelete = async (bookId: number, reviewId: number) => {
-    try {
-      await deleteReview(bookId, reviewId);
-    } catch (err) {
-      alert(err);
-    }
   };
 
   return (
@@ -106,12 +109,23 @@ export default function BookModal({
                 key={c.id}
                 bookId={selectedBook.id}
                 review={c}
-                deleteHandler={() => onDelete(selectedBook.id, c.id)}
+                deleteHandler={() => setSelectedReview(c.id)}
               />
             ))
           )}
         </div>
       </div>
+      <AlertDialog
+        open={!!selectedReview}
+        handleOpen={() => setSelectedReview(null)}
+        handleAction={() =>
+          mutationDelete.mutate({
+            bookId: selectedBook.id,
+            reviewId: selectedReview!,
+          })
+        }
+        title="정말 리뷰를 삭제하시겠습니까?"
+      />
     </div>
   );
 }

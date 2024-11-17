@@ -1,6 +1,12 @@
 import axios from "axios";
-import { AddReview, AddReviewResponse, Review } from "../types";
+import {
+  AddReview,
+  AddReviewResponse,
+  DeleteReviewResponse,
+  Review,
+} from "../types";
 import axiosClient from "../axios";
+import { toast } from "../hooks/use-toast";
 
 export const fetchReviews = async (bookId: number) => {
   const { data } = await axiosClient.get(`books/${bookId}/reviews`);
@@ -15,11 +21,10 @@ export const postReview = async ({
   review: AddReview;
 }) => {
   try {
-    const result = await axiosClient.post<AddReviewResponse>(
+    return await axiosClient.post<AddReviewResponse>(
       `books/${bookId}/reviews`,
       review
     );
-    return result;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
@@ -57,9 +62,17 @@ export const patchReview = async ({
   }
 };
 
-export const deleteReview = async (bookId: number, reviewId: number) => {
+export const deleteReview = async ({
+  bookId,
+  reviewId,
+}: {
+  bookId: number;
+  reviewId: number;
+}) => {
   try {
-    await axiosClient.delete(`books/${bookId}/reviews/${reviewId}`);
+    return await axiosClient.delete<DeleteReviewResponse>(
+      `books/${bookId}/reviews/${reviewId}`
+    );
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
