@@ -4,8 +4,11 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { ChangeEvent, useState } from "react";
 import { Star } from "lucide-react";
+import Tooltip from "../ui/tooltip";
+import { Content } from "@radix-ui/react-dialog";
+import { toast } from "@/lib/hooks/use-toast";
 
-export default function ReviewEditForm<T extends Partial<Review>>({
+export default function ReviewForm<T extends Partial<Review>>({
   review,
   onCancel,
   onSave,
@@ -27,9 +30,17 @@ export default function ReviewEditForm<T extends Partial<Review>>({
   };
 
   const handleSave = () => {
+    const { rating, content } = formReview;
+    if (!rating) {
+      return toast({ title: "점수를 선택하세요.", variant: "destructive" });
+    } else if (!content) {
+      return toast({ title: "내용을 입력하세요.", variant: "destructive" });
+    }
+
     onSave(formReview);
     setFormReview(() => ({ rating: 0, content: "" } as T));
   };
+
   return (
     <div className="space-y-2">
       <div>

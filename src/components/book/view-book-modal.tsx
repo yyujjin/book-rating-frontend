@@ -6,7 +6,7 @@ import { fetchReviews, postReview } from "@/lib/actions/review";
 import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
-import ReviewEditForm from "../review/review-edit-form";
+import ReviewForm from "../review/review-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent } from "../ui/card";
 import { toast } from "@/lib/hooks/use-toast";
@@ -82,7 +82,7 @@ export default function BookModal({
             <CardContent className="p-4">
               <h4 className="text-lg font-semibold mb-2">새 후기 작성</h4>
 
-              <ReviewEditForm<AddReview>
+              <ReviewForm<AddReview>
                 review={{ rating: 0, content: "" }}
                 onSave={onSave}
                 onCancel={() => setShowAddForm(false)}
