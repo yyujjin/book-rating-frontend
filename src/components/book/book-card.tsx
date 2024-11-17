@@ -80,7 +80,7 @@ export default function BookCard({ book }: { book: Book }) {
             <TagGroup tags={book.tags} />
           </div>
           <div className="flex justify-between items-center">
-            <Rating rating={book.average} />
+            <Rating rating={book.averageRating} />
             <Button
               size="sm"
               variant="ghost"

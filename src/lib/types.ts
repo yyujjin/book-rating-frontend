@@ -3,7 +3,7 @@ export interface Book {
   title: string;
   isbn: string;
   tags: Tag[];
-  average: number;
+  averageRating: number;
   thumbnail: string;
 }
 

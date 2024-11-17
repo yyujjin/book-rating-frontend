@@ -67,7 +67,7 @@ export default function BookModal({
       <div className="flex flex-col gap-5">
         <BookInfo
           selectedBook={selectedBook}
-          averageRating={data?.averageRating || 0}
+          averageRating={selectedBook.averageRating}
         />
         {false ? (
           <Card>
