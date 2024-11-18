@@ -33,8 +33,15 @@ export interface Review {
   id: number;
   rating: number;
   content: string;
-  updateAt?: Date;
+  updateAt?: string;
 }
+
+export interface ReviewResponse {
+  bookId: number;
+  reviews: ReviewResponseItem[];
+}
+
+export type ReviewResponseItem = Review & { user: IUser };
 
 export type AddReview = Omit<Review, "id">;
 
@@ -67,4 +74,9 @@ export interface IRegisterUser {
 export interface ILoginUser {
   username: string;
   password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  user: IUser;
 }

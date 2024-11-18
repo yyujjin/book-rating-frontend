@@ -1,4 +1,4 @@
-import { AddReview, Book, Review } from "@/lib/types";
+import { AddReview, Book, Review, ReviewResponse } from "@/lib/types";
 import { Button } from "../../ui/button";
 import BookReview from "../../review/review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -11,11 +11,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent } from "../../ui/card";
 import { toast } from "@/lib/hooks/use-toast";
 import { AlertDialog } from "@/components/ui/alert-dialog";
-
-interface Response {
-  reviews: Review[];
-  averageRating: number;
-}
 
 export default function BookModal({
   selectedBook,
@@ -30,7 +25,7 @@ export default function BookModal({
   );
   const [selectedReview, setSelectedReview] = useState<number | null>(null);
 
-  const { isPending, isError, data, error } = useQuery<Response>({
+  const { isPending, isError, data, error } = useQuery<ReviewResponse>({
     queryKey: ["reviews", selectedBook],
     queryFn: () => fetchReviews(selectedBook.id),
   });

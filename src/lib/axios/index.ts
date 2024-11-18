@@ -1,4 +1,5 @@
 import axios from "axios";
+import LocalStorageService from "../local-storage";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -8,6 +9,7 @@ const axiosClient = axios.create({
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${LocalStorageService.getAccessToken()}`,
   },
   // 구글 심사 통과 대기로 인해 우선 인증 없이 서비스
   // withCredentials: true, //인증 정보(쿠키) 포함

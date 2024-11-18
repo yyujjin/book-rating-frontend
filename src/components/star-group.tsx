@@ -2,7 +2,7 @@ import StarIcon from "./icons/star-icon";
 
 export default function Rating({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-2 mt-2">
+    <div className="flex items-center gap-2">
       <div className="flex items-center gap-0.5">
         {[...Array(5)].map((_, i) => (
           <StarIcon
