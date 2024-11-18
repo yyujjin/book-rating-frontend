@@ -60,3 +60,13 @@ export interface IUser {
   username: string;
   avatar: string;
 }
+
+export interface IRegisterUser {
+  username: string;
+  password: string;
+}
+
+export interface ILoginUser {
+  username: string;
+  password: string;
+}

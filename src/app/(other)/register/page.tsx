@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { RegisterForm } from "@/components/auth/register-form";
 import {
   Card,
   CardContent,
@@ -14,22 +14,22 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata = {
-  title: "Login",
+  title: "Register",
 };
 
 export default function LoginPage() {
   return (
     <Card className="w-[400px] justify-center flex flex-col gap-5 p-5">
       <CardHeader className="space-y-2">
-        <CardTitle className={`text-4xl font-bold text-center text-gray-600`}>
-          Login
+        <CardTitle className={`text-4xl font-bold text-center text-gray-600 `}>
+          Sign up
         </CardTitle>
-        <CardDescription className={`text-md italic text-center`}>
-          📚 Share good books with more people.
+        <CardDescription className={`text-md italic text-center `}>
+          Welcome!😊
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <LoginForm />
+        <RegisterForm />
       </CardContent>
     </Card>
   );

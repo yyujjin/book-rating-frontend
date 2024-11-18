@@ -48,9 +48,15 @@ const Auth = () => {
           </Button>
         </div>
       ) : (
-        <Button variant="outline" asChild>
-          <Link href="/login">Sign in</Link>
-        </Button>
+        <div className="space-x-2">
+          <Button variant="ghost" asChild>
+            <Link href="/register">Sign up</Link>
+          </Button>
+
+          <Button variant="outline" asChild>
+            <Link href="/login">Sign in</Link>
+          </Button>
+        </div>
       )}
     </div>
   );
