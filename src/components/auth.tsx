@@ -5,24 +5,14 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { IUser } from "@/lib/types";
 
 const Auth = () => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<string | null>(null);
 
-  const getUserInfo = async () => {
-    try {
-      const { data } = await axiosClient.post<IUser>("loginInfo");
-      setUser(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // 구글 심사 동안 인증 없이 서비스
-  // useEffect(() => {
-  //   getUserInfo();
-  // }, []);
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    setUser(username);
+  }, []);
 
   const handleLogout = async () => {
     await axiosClient.post("logout");
@@ -32,13 +22,13 @@ const Auth = () => {
     <div>
       {user ? (
         <div className="flex gap-2 items-center">
-          <Avatar className="h-8 w-8 border">
-            <AvatarImage
-              src={user.avatar || "/placeholder-user.jpg"}
-              alt="User"
-            />
-            <AvatarFallback>{user.username}</AvatarFallback>
-          </Avatar>
+          <div className="flex items-center rounded-lg px-4 py-2 h-10 gap-1">
+            <Avatar className="h-8 w-8 border">
+              <AvatarImage src={"/placeholder-user.jpg"} alt="User" />
+              <AvatarFallback>{user}</AvatarFallback>
+            </Avatar>
+            <span>{user}</span>
+          </div>
           <Button
             variant="outline"
             onClick={handleLogout}

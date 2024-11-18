@@ -56,9 +56,7 @@ export interface Tag {
 
 export interface IUser {
   id: number;
-  email: string;
   username: string;
-  avatar: string;
 }
 
 export interface IRegisterUser {
