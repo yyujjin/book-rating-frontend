@@ -48,7 +48,10 @@ export const patchReview = async ({
   review: Review;
 }) => {
   try {
-    await axiosClient.patch(`books/${bookId}/reviews/${review.id}`, review);
+    return await axiosClient.patch(
+      `books/${bookId}/reviews/${review.id}`,
+      review
+    );
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 400) {
@@ -86,4 +89,9 @@ export const deleteReview = async ({
       throw new Error("Network Error");
     }
   }
+};
+
+export const getMyReviewByBookId = async (bookId: number) => {
+  const { data } = await axiosClient.get(`books/${bookId}/reviews/my-review`);
+  return data;
 };

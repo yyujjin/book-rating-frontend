@@ -4,8 +4,7 @@ import { Button } from "../ui/button";
 import TrashIcon from "../icons/trash";
 import type { Fn, Review, ReviewResponseItem } from "@/lib/types";
 import Rating from "../star-group";
-import { useState } from "react";
-import ReviewForm from "./review-form";
+import { useEffect, useState } from "react";
 import { useReview } from "@/lib/hooks/review";
 import LocalStorageService from "@/lib/local-storage";
 
@@ -20,21 +19,6 @@ export default function BookReview({
   review: ReviewResponseItem;
   deleteHandler: Fn;
 }) {
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  const onCancel = () => {
-    setIsEditMode(false);
-  };
-
-  const { updateReview } = useReview();
-  const onSave = (formReview: Review) => {
-    updateReview.mutate({
-      bookId,
-      review: { ...formReview, rating: Number(formReview.rating) },
-    });
-    onCancel();
-  };
-
   return (
     <div className="flex items-start gap-4 border-b border-b-gray-100">
       <div className="space-y-2 flex-1">
@@ -43,16 +27,6 @@ export default function BookReview({
             <Rating rating={review.rating} />
           </div>
           <div className="flex items-center gap-1 cursor-not-allowed">
-            {/* 구글 로그인 될때까지 수정 기능 막기 */}
-            {/* <Button
-              size="sm"
-              variant="ghost"
-              className="text-muted-foreground hover:bg-muted/10"
-              onClick={() => setIsEditMode(true)}
-            >
-              <FilePenIcon className="w-4 h-4" />
-              <span className="sr-only">Edit</span>
-            </Button> */}
             <div className="text-xs space-x-1">
               <span className="font-bold">{review.user.username}</span>
               <span className="text-gray-500">{review.updateAt}</span>
@@ -72,13 +46,9 @@ export default function BookReview({
             )}
           </div>
         </div>
-        {isEditMode ? (
-          <ReviewForm review={review} onCancel={onCancel} onSave={onSave} />
-        ) : (
-          <p className="text-sm leading-relaxed line-clamp-3 pb-2">
-            {review.content}
-          </p>
-        )}
+        <p className="text-sm leading-relaxed line-clamp-3 pb-2">
+          {review.content}
+        </p>
       </div>
     </div>
   );

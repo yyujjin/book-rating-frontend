@@ -2,7 +2,12 @@ import { AddReview, Book, Review, ReviewResponse } from "@/lib/types";
 import { Button } from "../../ui/button";
 import BookReview from "../../review/review-item";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { fetchReviews, postReview } from "@/lib/actions/review";
+import {
+  getMyReviewByBookId,
+  fetchReviews,
+  postReview,
+  patchReview,
+} from "@/lib/actions/review";
 import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
@@ -32,6 +37,11 @@ export default function BookModal({
 
   const queryClient = useQueryClient();
 
+  const { data: myReview } = useQuery({
+    queryKey: ["my-review", selectedBook.id],
+    queryFn: () => getMyReviewByBookId(selectedBook.id),
+  });
+
   const mutation = useMutation({
     mutationFn: postReview,
     onSuccess: (data) => {
@@ -40,9 +50,30 @@ export default function BookModal({
       toast({ title: "리뷰가 등록되었습니다." });
     },
     onError: (err) => {
-      alert(err);
+      toast({ title: err.message });
     },
   });
+
+  const mutationPatch = useMutation({
+    mutationFn: patchReview,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      setAverageRating(data?.data.averageRating || 0);
+      toast({ title: "리뷰가 수정되었습니다." });
+    },
+    onError: (err) => {
+      toast({ title: err.message });
+    },
+  });
+
+  const onEdit = (formReview: Review) => {
+    mutationPatch.mutate({
+      bookId: selectedBook.id,
+      review: {
+        ...formReview,
+      },
+    });
+  };
 
   const mutationDelete = useMutation({
     mutationFn: deleteReview,
@@ -67,12 +98,16 @@ export default function BookModal({
     <div className=" w-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="flex flex-col gap-5">
         <BookInfo selectedBook={selectedBook} averageRating={averageRating} />
-        {false ? (
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-lg font-semibold text-gray-600">
-                리뷰는 한 번만 작성 가능합니다.
-              </p>
+        {myReview ? (
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <h4 className="text-lg font-semibold mb-2">나의 후기</h4>
+              <ReviewForm<Review>
+                review={{ ...myReview }}
+                onSave={onEdit}
+                onCancel={() => setShowAddForm(false)}
+                mode="edit"
+              />
             </CardContent>
           </Card>
         ) : (

@@ -12,10 +12,12 @@ export default function ReviewForm<T extends Partial<Review>>({
   review,
   onCancel,
   onSave,
+  mode = "create",
 }: {
   review: T;
   onCancel: Fn;
   onSave: (review: T) => void;
+  mode?: "create" | "edit";
 }) {
   const [formReview, setFormReview] = useState<T>({ ...review });
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -73,11 +75,8 @@ export default function ReviewForm<T extends Partial<Review>>({
         />
       </div>
       <div className="flex gap-2 justify-end">
-        {/* <Button type="submit" variant="outline" onClick={onCancel}>
-          Cancel
-        </Button> */}
         <Button type="button" onClick={handleSave}>
-          Save
+          {mode === "create" ? "Save" : "Edit"}
         </Button>
       </div>
     </div>

@@ -16,7 +16,7 @@ class LocalStorageService {
 
   // Get a value from localStorage
   static getAccessToken(): string | null {
-    if (typeof window !== undefined) return null;
+    if (typeof window === undefined) return null;
     return localStorage.getItem(this.accessTokenKey);
   }
 
