@@ -1,28 +1,25 @@
-import { Fn, Review } from "@/lib/types";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { ChangeEvent, useState } from "react";
 import { Star } from "lucide-react";
-import Tooltip from "../ui/tooltip";
-import { Content } from "@radix-ui/react-dialog";
-import { toast } from "@/lib/hooks/use-toast";
+import { Card, CardContent } from "../ui/card";
+import { useReviewForm } from "@/lib/hooks/use-review-form";
+import { ChangeEvent } from "react";
 
-export default function ReviewForm<T extends Partial<Review>>({
-  review,
-  onCancel,
-  onSave,
-  mode = "create",
+export default function ReviewForm({
+  bookId,
+  handleAverageRating,
 }: {
-  review: T;
-  onCancel: Fn;
-  onSave: (review: T) => void;
-  mode?: "create" | "edit";
+  bookId: number;
+  handleAverageRating: (rating: number | undefined) => void;
 }) {
-  const [formReview, setFormReview] = useState<T>({ ...review });
+  const { formReview, mode, setFormReview, handleSave, myReview } =
+    useReviewForm(bookId, handleAverageRating);
+
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormReview({ ...formReview, [e.target.name]: e.target.value });
   };
+
   const handleRatingChange = (
     e: React.MouseEvent<HTMLButtonElement>,
     rating: number
@@ -31,54 +28,49 @@ export default function ReviewForm<T extends Partial<Review>>({
     setFormReview((prev) => ({ ...prev, rating }));
   };
 
-  const handleSave = () => {
-    const { rating, content } = formReview;
-    if (!rating) {
-      return toast({ title: "점수를 선택하세요.", variant: "destructive" });
-    } else if (!content) {
-      return toast({ title: "내용을 입력하세요.", variant: "destructive" });
-    }
-
-    onSave(formReview);
-    setFormReview(() => ({ rating: 0, content: "" } as T));
-  };
-
   return (
-    <div className="space-y-2">
-      <div>
-        <Label>rating</Label>
-        <div className="flex items-center mb-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Button
-              key={star}
-              variant="ghost"
-              size="sm"
-              className={`p-0 hover:text-yellow-400 focus-visible:ring-opacity-0 ${
-                star <= (formReview.rating ?? 0)
-                  ? "text-yellow-400"
-                  : "text-gray-300"
-              }`}
-              onClick={(e) => handleRatingChange(e, star)}
-            >
-              <Star className="w-6 h-6 fill-current" />
+    <Card className="bg-white">
+      <CardContent className="p-4">
+        <h4 className="text-lg font-semibold mb-2">
+          {myReview ? "나의 후기" : "새 후기 작성"}
+        </h4>
+        <div className="space-y-2">
+          <div>
+            <Label>rating</Label>
+            <div className="flex items-center mb-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Button
+                  key={star}
+                  variant="ghost"
+                  size="sm"
+                  className={`p-0 hover:text-yellow-400 focus-visible:ring-opacity-0 ${
+                    star <= (formReview.rating ?? 0)
+                      ? "text-yellow-400"
+                      : "text-gray-300"
+                  }`}
+                  onClick={(e) => handleRatingChange(e, star)}
+                >
+                  <Star className="w-6 h-6 fill-current" />
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label>review</Label>
+            <Textarea
+              value={formReview.content}
+              name="content"
+              onChange={onChange}
+              className="bg-white"
+            />
+          </div>
+          <div className="flex gap-2 justify-end">
+            <Button type="button" onClick={handleSave}>
+              {mode === "create" ? "Save" : "Edit"}
             </Button>
-          ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <Label>review</Label>
-        <Textarea
-          value={formReview.content}
-          name="content"
-          onChange={onChange}
-          className="bg-white"
-        />
-      </div>
-      <div className="flex gap-2 justify-end">
-        <Button type="button" onClick={handleSave}>
-          {mode === "create" ? "Save" : "Edit"}
-        </Button>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

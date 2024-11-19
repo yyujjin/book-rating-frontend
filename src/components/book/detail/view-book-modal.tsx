@@ -1,19 +1,11 @@
-import { AddReview, Book, Review, ReviewResponse } from "@/lib/types";
-import { Button } from "../../ui/button";
+import { Book, ReviewResponse } from "@/lib/types";
 import BookReview from "../../review/review-item";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import {
-  getMyReviewByBookId,
-  fetchReviews,
-  postReview,
-  patchReview,
-} from "@/lib/actions/review";
+import { fetchReviews } from "@/lib/actions/review";
 import { useState } from "react";
 import BookInfo from "./book-info";
 import { deleteReview } from "@/lib/actions/review";
 import ReviewForm from "../../review/review-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent } from "../../ui/card";
 import { toast } from "@/lib/hooks/use-toast";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 
@@ -24,7 +16,6 @@ export default function BookModal({
   selectedBook: Book;
   setSelectedBook: (selectedBook: Book | null) => void;
 }) {
-  const [showAddForm, setShowAddForm] = useState(false);
   const [averageRating, setAverageRating] = useState(
     selectedBook.averageRating
   );
@@ -37,92 +28,28 @@ export default function BookModal({
 
   const queryClient = useQueryClient();
 
-  const { data: myReview } = useQuery({
-    queryKey: ["my-review", selectedBook.id],
-    queryFn: () => getMyReviewByBookId(selectedBook.id),
-  });
-
-  const mutation = useMutation({
-    mutationFn: postReview,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
-      setAverageRating(data?.data.averageRating || 0);
-      toast({ title: "리뷰가 등록되었습니다." });
-    },
-    onError: (err) => {
-      toast({ title: err.message });
-    },
-  });
-
-  const mutationPatch = useMutation({
-    mutationFn: patchReview,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
-      setAverageRating(data?.data.averageRating || 0);
-      toast({ title: "리뷰가 수정되었습니다." });
-    },
-    onError: (err) => {
-      toast({ title: err.message });
-    },
-  });
-
-  const onEdit = (formReview: Review) => {
-    mutationPatch.mutate({
-      bookId: selectedBook.id,
-      review: {
-        ...formReview,
-      },
-    });
-  };
-
   const mutationDelete = useMutation({
     mutationFn: deleteReview,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
       setAverageRating(data?.data.averageRating || 0);
       toast({ title: "리뷰가 삭제되었습니다." });
+      queryClient.invalidateQueries({ queryKey: ["my-review"] });
     },
   });
 
-  const onSave = (formReview: AddReview) => {
-    mutation.mutate({
-      bookId: selectedBook.id,
-      review: {
-        ...formReview,
-        rating: Number(formReview.rating),
-      },
-    });
+  const handleAverageRating = (rating: number | undefined) => {
+    setAverageRating(rating || 0);
   };
 
   return (
     <div className=" w-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="flex flex-col gap-5">
         <BookInfo selectedBook={selectedBook} averageRating={averageRating} />
-        {myReview ? (
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <h4 className="text-lg font-semibold mb-2">나의 후기</h4>
-              <ReviewForm<Review>
-                review={{ ...myReview }}
-                onSave={onEdit}
-                onCancel={() => setShowAddForm(false)}
-                mode="edit"
-              />
-            </CardContent>
-          </Card>
-        ) : (
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <h4 className="text-lg font-semibold mb-2">새 후기 작성</h4>
-
-              <ReviewForm<AddReview>
-                review={{ rating: 0, content: "" }}
-                onSave={onSave}
-                onCancel={() => setShowAddForm(false)}
-              />
-            </CardContent>
-          </Card>
-        )}
+        <ReviewForm
+          bookId={selectedBook.id}
+          handleAverageRating={handleAverageRating}
+        />
       </div>
 
       {/* 우측: 후기 목록 및 작성 */}

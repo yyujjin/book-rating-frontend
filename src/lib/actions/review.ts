@@ -91,7 +91,7 @@ export const deleteReview = async ({
   }
 };
 
-export const getMyReviewByBookId = async (bookId: number) => {
+export const getMyReviewByBookId = async (bookId: number): Promise<Review> => {
   const { data } = await axiosClient.get(`books/${bookId}/reviews/my-review`);
   return data;
 };
