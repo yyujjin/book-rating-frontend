@@ -5,17 +5,19 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import LocalStorageService from "@/lib/local-storage";
 
 const Auth = () => {
   const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
+    const username = LocalStorageService.getUsername();
     setUser(username);
   }, []);
 
   const handleLogout = async () => {
-    await axiosClient.post("logout");
+    await axiosClient.post("auth/logout");
+    LocalStorageService.clear();
     setUser(null);
   };
   return (
