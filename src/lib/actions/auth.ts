@@ -1,7 +1,6 @@
 import axios from "axios";
 import axiosClient from "../axios";
 import { ILoginUser, IRegisterUser, LoginResponse } from "../types";
-import LocalStorageService from "../local-storage";
 
 export const login = async (loginInfo: ILoginUser) => {
   try {
@@ -9,7 +8,7 @@ export const login = async (loginInfo: ILoginUser) => {
       `auth/login`,
       loginInfo
     );
-    LocalStorageService.setAuth(data); // TODO: 간단하지만 보안 취약. 인가 작업 이후 쿠키로 변경
+    return data;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       if (err.response.status === 401) {

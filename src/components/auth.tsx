@@ -1,39 +1,28 @@
 "use client";
 
-import axiosClient from "@/lib/axios";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import LocalStorageService from "@/lib/local-storage";
+import { useUser } from "@/contexts/UserContext";
 
 const Auth = () => {
-  const [user, setUser] = useState<string | null>(null);
+  const { username, logout } = useUser();
 
-  useEffect(() => {
-    const username = LocalStorageService.getUsername();
-    setUser(username);
-  }, []);
-
-  const handleLogout = async () => {
-    await axiosClient.post("auth/logout");
-    LocalStorageService.clear();
-    setUser(null);
-  };
   return (
     <div>
-      {user ? (
+      {username ? (
         <div className="flex gap-2 items-center">
           <div className="flex items-center rounded-lg px-4 py-2 h-10 gap-1">
             <Avatar className="h-8 w-8 border">
               <AvatarImage src={"/placeholder-user.jpg"} alt="User" />
-              <AvatarFallback>{user}</AvatarFallback>
+              <AvatarFallback>{username}</AvatarFallback>
             </Avatar>
-            <span>{user}</span>
+            <span>{username}</span>
           </div>
           <Button
             variant="outline"
-            onClick={handleLogout}
+            onClick={logout}
             className="border-gray-200"
           >
             Logout

@@ -14,9 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login } from "@/lib/actions/auth";
 import { toast } from "@/lib/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -28,7 +27,7 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
-  const router = useRouter();
+  const { login } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,7 +40,6 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await login(values);
-      router.push("/");
     } catch (err) {
       if (err instanceof Error) {
         toast({ title: err.message, variant: "destructive" });
