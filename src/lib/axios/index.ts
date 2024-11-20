@@ -1,5 +1,4 @@
 import axios from "axios";
-import LocalStorageService from "../local-storage";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 

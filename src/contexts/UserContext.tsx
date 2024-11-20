@@ -1,10 +1,16 @@
 "use client";
 
-import { login as loginApi } from "@/lib/actions/auth";
+import { login as loginApi, loginCheck } from "@/lib/actions/auth";
 import axiosClient from "@/lib/axios";
-import LocalStorageService from "@/lib/local-storage";
+import { IUser } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface LoginInfo {
   username: string;
@@ -12,7 +18,7 @@ interface LoginInfo {
 }
 
 interface UserContextType {
-  username: string | undefined;
+  user: IUser | undefined;
   login: (loginInfo: LoginInfo) => void;
   logout: () => void;
 }
@@ -23,30 +29,34 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const [user, setUser] = useState<string | undefined>(undefined);
+  const [user, setUser] = useState<IUser | undefined>(undefined);
 
-  //   useEffect(() => { // TODO:
-  //     const username = LocalStorageService.getUsername();
-  //     setUser(username);
-  //   }, []);
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  const checkLogin = async () => {
+    const user = await loginCheck();
+    if (!user) return;
+
+    setUser(user);
+  };
 
   const login = async (values: LoginInfo) => {
     const data = await loginApi(values);
     if (!data) return;
 
-    LocalStorageService.setAuth(data);
-    setUser(data?.user.username);
+    setUser(data?.user);
     router.push("/");
   };
 
   const logout = async () => {
     await axiosClient.post("auth/logout");
-    LocalStorageService.clear();
     setUser(undefined);
   };
 
   return (
-    <UserContext.Provider value={{ username: user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );

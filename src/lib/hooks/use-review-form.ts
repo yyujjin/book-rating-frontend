@@ -46,6 +46,7 @@ export function useReviewForm(
       setFormReview(myReview);
     } else if (isSuccess && !myReview) {
       setFormReview(initial);
+      setMode("create");
     }
   }, [isSuccess, myReview]);
 

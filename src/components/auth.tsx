@@ -7,7 +7,8 @@ import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 
 const Auth = () => {
-  const { username, logout } = useUser();
+  const { user, logout } = useUser();
+  const { username } = user || {};
 
   return (
     <div>

@@ -6,7 +6,6 @@ import {
   Review,
 } from "../types";
 import axiosClient from "../axios";
-import LocalStorageService from "../local-storage";
 
 export const fetchReviews = async (bookId: number) => {
   const { data } = await axiosClient.get(`books/${bookId}/reviews`);
@@ -30,7 +29,6 @@ export const postReview = async ({
       if (err.response.status === 400) {
         throw new Error("존재하지 않는 책입니다.");
       } else if (err.response.status === 401) {
-        LocalStorageService.clear(); // TODO: 여기서 클리어하는게 맞나? UserContext 추가 후 다시 확인
         throw new Error("로그인이 필요합니다.");
       }
     } else {

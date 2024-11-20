@@ -1,6 +1,6 @@
 import axios from "axios";
 import axiosClient from "../axios";
-import { ILoginUser, IRegisterUser, LoginResponse } from "../types";
+import { ILoginUser, IRegisterUser, IUser, LoginResponse } from "../types";
 
 export const login = async (loginInfo: ILoginUser) => {
   try {
@@ -33,5 +33,14 @@ export const register = async (user: IRegisterUser) => {
       console.error(err);
       throw new Error("Network Error");
     }
+  }
+};
+
+export const loginCheck = async (): Promise<IUser | undefined> => {
+  try {
+    const { data } = await axiosClient.get(`auth/me`);
+    return data;
+  } catch (err) {
+    console.error(err);
   }
 };

@@ -6,9 +6,7 @@ import type { Fn, Review, ReviewResponseItem } from "@/lib/types";
 import Rating from "../star-group";
 import { useEffect, useState } from "react";
 import { useReview } from "@/lib/hooks/review";
-import LocalStorageService from "@/lib/local-storage";
-
-const IS_ADMIN = process.env.NEXT_PUBLIC_IS_ADMIN === "true" ? false : true;
+import { useUser } from "@/contexts/UserContext";
 
 export default function BookReview({
   bookId,
@@ -19,6 +17,7 @@ export default function BookReview({
   review: ReviewResponseItem;
   deleteHandler: Fn;
 }) {
+  const { user } = useUser();
   return (
     <div className="flex items-start gap-4 border-b border-b-gray-100">
       <div className="space-y-2 flex-1">
@@ -31,16 +30,14 @@ export default function BookReview({
               <span className="font-bold">{review.user.username}</span>
               <span className="text-gray-500">{review.updateAt}</span>
             </div>
-            {review.user.id === LocalStorageService.getUserId() && (
+            {review.user.id === user?.id && (
               <Button
                 size="sm"
                 variant="ghost"
                 className="text-muted-foreground hover:bg-muted/10"
                 onClick={deleteHandler}
               >
-                <TrashIcon
-                  className={`w-4 h-4 ${!IS_ADMIN ? "cursor-not-allowed" : ""}`}
-                />
+                <TrashIcon className={`w-4 h-4`} />
                 <span className="sr-only">Delete</span>
               </Button>
             )}

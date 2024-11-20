@@ -5,6 +5,8 @@ import { Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { useReviewForm } from "@/lib/hooks/use-review-form";
 import { ChangeEvent } from "react";
+import { useUser } from "@/contexts/UserContext";
+import Tooltip from "../ui/tooltip";
 
 export default function ReviewForm({
   bookId,
@@ -27,6 +29,8 @@ export default function ReviewForm({
     e.stopPropagation();
     setFormReview((prev) => ({ ...prev, rating }));
   };
+
+  const { user } = useUser();
 
   return (
     <Card className="bg-white">
@@ -65,9 +69,15 @@ export default function ReviewForm({
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <Button type="button" onClick={handleSave}>
-              {mode === "create" ? "Save" : "Edit"}
-            </Button>
+            {!user ? (
+              <Tooltip content="">
+                <Button disabled>로그인이 필요합니다.</Button>
+              </Tooltip>
+            ) : (
+              <Button type="button" onClick={handleSave}>
+                {mode === "create" ? "Save" : "Edit"}
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>
