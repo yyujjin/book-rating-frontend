@@ -5,6 +5,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 const Auth = () => {
   const { user, logout } = useUser();
@@ -13,30 +14,42 @@ const Auth = () => {
   return (
     <div>
       {username ? (
-        <div className="flex gap-2 items-center">
-          <div className="flex items-center rounded-lg px-4 py-2 h-10 gap-1">
+        <div className="flex items-center">
+          <div className="flex items-center rounded-lg py-2 h-10 gap-2">
             <Avatar className="h-8 w-8 border">
               <AvatarImage src={"/placeholder-user.jpg"} alt="User" />
               <AvatarFallback>{username}</AvatarFallback>
             </Avatar>
-            <span>{username}</span>
+            <span className="text-slate-900 font-medium border-r pr-3 text-sm">
+              {username}
+            </span>
           </div>
           <Button
-            variant="outline"
+            size="sm"
+            variant="ghost"
             onClick={logout}
-            className="border-gray-200"
+            className="text-slate-900 font-medium"
           >
             Logout
           </Button>
         </div>
       ) : (
         <div className="space-x-2">
-          <Button variant="ghost" asChild>
+          {/* <Button variant="ghost" asChild>
             <Link href="/register">Sign up</Link>
-          </Button>
+          </Button> */}
 
-          <Button variant="outline" asChild>
-            <Link href="/login">Sign in</Link>
+          <Button
+            variant="ghost"
+            asChild
+            className="text-slate-900 font-semibold"
+          >
+            <Link href="/login">
+              <div className="flex items-center gap-1">
+                Login in
+                <ArrowRightIcon />
+              </div>
+            </Link>
           </Button>
         </div>
       )}

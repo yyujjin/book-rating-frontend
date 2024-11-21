@@ -70,7 +70,7 @@ export default function BookCard({ book }: { book: Book }) {
   return (
     <>
       <div
-        className="flex flex-col overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer"
+        className="flex flex-col overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer border-gray-200"
         onClick={() => setSelectedBook(book)}
       >
         <Image
@@ -78,16 +78,20 @@ export default function BookCard({ book }: { book: Book }) {
           alt={book.title}
           width={150}
           height={150}
-          className="p-1 max-h-52 object-contain w-full bg-gradient-to-b from-gray-50 to-gray-100"
+          className="p-1 py-2 max-h-52 object-contain w-full bg-gradient-to-b from-gray-50 to-gray-100"
         />
-        <div className="flex-1 p-4 pr-2 bg-white space-y-1">
-          <h3 className="text-sm font-bold truncate">{book.title}</h3>
-          <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+        <div className="flex-1 p-3 bg-white space-y-1 ">
+          <h3 className="text-sm font-medium truncate text-slate-900 mb-2">
+            {book.title}
+          </h3>
+          {/* <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
             <TagGroup tags={book.tags} />
-          </div>
+          </div> */}
           <div className="flex justify-between items-center">
             <Rating rating={book.averageRating} />
-            <Button
+            {/* {TODO:} */}
+            <span className="text-gray-500 text-xs">12 reviews</span>
+            {/* <Button
               size="sm"
               variant="ghost"
               className="text-muted-foreground hover:bg-muted/40 px-2"
@@ -98,7 +102,7 @@ export default function BookCard({ book }: { book: Book }) {
             >
               <TrashIcon className="w-4 h-4" />
               <span className="sr-only">Delete</span>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body
         className={cn(
-          "antialiased bg-gradient-to-br from-primary to-secondary ",
+          "antialiased ",
           fontHeading.variable,
           nanumGothic.variable
         )}

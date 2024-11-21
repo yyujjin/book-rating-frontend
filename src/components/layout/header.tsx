@@ -11,7 +11,7 @@ const dancingScript = Dancing_Script({
 
 const header = () => {
   return (
-    <header className="container w-full flex items-center justify-between px-4 md:px-6 py-4">
+    <header className="container w-full flex items-center justify-between px-4 md:px-6 py-4 border-b">
       <Link href="/">
         <div className={cx(dancingScript.className, "text-3xl font-bold")}>
           Book Rating
