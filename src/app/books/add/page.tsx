@@ -1,15 +1,6 @@
 "use client";
-import axios from "axios";
 import Image from "next/image";
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import DebounceInput from "@/components/ui/debounce-input";
 import { AlertDialog } from "@/components/ui/alert-dialog";
@@ -46,20 +37,6 @@ const AddBook = () => {
             </li>
           ))}
       </ul>
-      {/* <Dialog open={open} onOpenChange={setOpen}>
-<DialogTrigger asChild></DialogTrigger>
-<DialogContent className="sm:max-w-[425px]">
-  <DialogHeader>
-    <DialogTitle>Add New Book</DialogTitle>
-  </DialogHeader>
-  <BookForm formData={book} setFormData={setBook} />
-  <DialogFooter>
-    <Button type="submit" onClick={onSubmit}>
-      Save
-    </Button>
-  </DialogFooter>
-</DialogContent>
-</Dialog> */}
       <AlertDialog
         open={!!selectedBook}
         handleOpen={() => setSelectedBook(null)}
