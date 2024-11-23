@@ -1,10 +1,21 @@
 import axios from "axios";
 import { AddBook, Book } from "../types";
-import axiosClient from "../axios";
+import axiosClient, { ssrAxiosClient } from "../axios";
 
 export const fetchBooks = async (): Promise<Book[]> => {
   try {
     const { data } = await axiosClient.get(`books`);
+
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch data.");
+  }
+};
+
+export const fetchBook = async (id: number): Promise<Book> => {
+  try {
+    const { data } = await axiosClient.get(`books/${id}`);
 
     return data;
   } catch (error) {

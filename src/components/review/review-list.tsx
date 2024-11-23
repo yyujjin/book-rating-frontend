@@ -1,29 +1,22 @@
-import { Book, ReviewResponse } from "@/lib/types";
-import BookReview from "../../review/review-item";
-import { fetchReviews } from "@/lib/actions/review";
-import { useState } from "react";
-import BookInfo from "./book-info";
-import { deleteReview } from "@/lib/actions/review";
-import ReviewForm from "../../review/review-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "@/lib/hooks/use-toast";
+import React, { useState } from "react";
 import { AlertDialog } from "@/components/ui/alert-dialog";
+import { deleteReview, fetchReviews } from "@/lib/actions/review";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Book, ReviewResponse } from "@/lib/types";
+import { toast } from "@/lib/hooks/use-toast";
+import BookReview from "./review-item";
 
-export default function BookModal({
-  selectedBook,
-  setSelectedBook,
-}: {
+interface Props {
   selectedBook: Book;
-  setSelectedBook: (selectedBook: Book | null) => void;
-}) {
-  const [averageRating, setAverageRating] = useState(
-    selectedBook.averageRating
-  );
+  setAverageRating: (rating: number) => void;
+}
+const ReviewList = ({ selectedBook, setAverageRating }: Props) => {
   const [selectedReview, setSelectedReview] = useState<number | null>(null);
 
   const { isPending, isError, data, error } = useQuery<ReviewResponse>({
     queryKey: ["reviews", selectedBook],
     queryFn: () => fetchReviews(selectedBook.id),
+    enabled: !!selectedBook?.id,
   });
 
   const queryClient = useQueryClient();
@@ -37,24 +30,10 @@ export default function BookModal({
       queryClient.invalidateQueries({ queryKey: ["my-review"] });
     },
   });
-
-  const handleAverageRating = (rating: number | undefined) => {
-    setAverageRating(rating || 0);
-  };
-
   return (
-    <div className=" w-full max-h-[80vh] overflow-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="flex flex-col gap-5">
-        <BookInfo selectedBook={selectedBook} averageRating={averageRating} />
-        <ReviewForm
-          bookId={selectedBook.id}
-          handleAverageRating={handleAverageRating}
-        />
-      </div>
-
-      {/* 우측: 후기 목록 및 작성 */}
-      <div className="flex flex-col ">
-        <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+    <>
+      <div className="flex flex-col p-4 border-t">
+        <h3 className="text-sm font-medium mb-4 text-slate-800">Reviews</h3>
         <div className="flex-grow overflow-auto mb-4 pr-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {data?.reviews.length === 0 ? (
             <div className="text-gray-500 italic">
@@ -64,7 +43,7 @@ export default function BookModal({
             data?.reviews.map((c) => (
               <BookReview
                 key={c.id}
-                bookId={selectedBook.id}
+                bookId={selectedBook.id || 0}
                 review={c}
                 deleteHandler={() => setSelectedReview(c.id)}
               />
@@ -83,6 +62,9 @@ export default function BookModal({
         }
         title="정말 리뷰를 삭제하시겠습니까?"
       />
-    </div>
+      ;
+    </>
   );
-}
+};
+
+export default ReviewList;

@@ -20,7 +20,7 @@ export default function Home() {
           <Button
             asChild
             variant="default"
-            className="transition-transform duration-300 border shadow-md bg-primary rounded-sm font-semibold hover:-translate-y-2"
+            className="transition-transform duration-300 border shadow-md bg-primary rounded-sm font-semibold"
           >
             <Link href="/books/add">
               <PlusIcon className="w-5 h-5" />

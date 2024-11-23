@@ -10,7 +10,6 @@ import BookForm from "./book-form";
 import { deleteBook, patchBook } from "@/lib/actions/book";
 import BookEditModal from "./book-edit-modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import BookModal from "./detail/view-book-modal";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import TrashIcon from "../icons/trash";
 
@@ -125,21 +124,6 @@ export default function BookCard({ book }: { book: Book }) {
           </>
         }
       />
-      {/* 책 상세보기 팝업 */}
-      {selectedBook && (
-        <Dialog
-          open={!!selectedBook}
-          onOpenChange={() => setSelectedBook(null)}
-        >
-          <DialogTrigger asChild></DialogTrigger>
-          <DialogContent className="max-w-4xl lg:max-w-7xl bg-white">
-            <BookModal
-              selectedBook={selectedBook}
-              setSelectedBook={setSelectedBook}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import BookCard from "./book-card";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "@/lib/actions/book";
+import Link from "next/link";
 
 export default function BookList() {
   const { data: books } = useQuery({
@@ -13,7 +14,9 @@ export default function BookList() {
   return (
     <>
       {books?.map((book, index) => (
-        <BookCard key={index} book={book} />
+        <Link href={`/books/${book.id}`} key={index}>
+          <BookCard book={book} />
+        </Link>
       ))}
     </>
   );

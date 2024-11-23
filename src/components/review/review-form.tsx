@@ -33,54 +33,52 @@ export default function ReviewForm({
   const { user } = useUser();
 
   return (
-    <Card className="bg-white">
-      <CardContent className="p-4">
-        <h4 className="text-lg font-semibold mb-2">
-          {myReview ? "나의 후기" : "새 후기 작성"}
-        </h4>
-        <div className="space-y-2">
-          <div>
-            <Label>rating</Label>
-            <div className="flex items-center mb-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Button
-                  key={star}
-                  variant="ghost"
-                  size="sm"
-                  className={`p-0 hover:text-yellow-400 focus-visible:ring-opacity-0 ${
-                    star <= (formReview.rating ?? 0)
-                      ? "text-yellow-400"
-                      : "text-gray-300"
-                  }`}
-                  onClick={(e) => handleRatingChange(e, star)}
-                >
-                  <Star className="w-6 h-6 fill-current" />
-                </Button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label>review</Label>
-            <Textarea
-              value={formReview.content}
-              name="content"
-              onChange={onChange}
-              className="bg-white"
-            />
-          </div>
-          <div className="flex gap-2 justify-end">
-            {!user ? (
-              <Tooltip content="">
-                <Button disabled>로그인이 필요합니다.</Button>
-              </Tooltip>
-            ) : (
-              <Button type="button" onClick={handleSave}>
-                {mode === "create" ? "Save" : "Edit"}
+    <div className="p-4 border-t">
+      <h4 className="text-sm font-medium mb-4 text-slate-800">
+        {myReview ? "나의 후기" : "새 후기 작성"}
+      </h4>
+      <div className="space-y-2">
+        <div>
+          <Label>rating</Label>
+          <div className="flex items-center mb-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Button
+                key={star}
+                variant="ghost"
+                size="sm"
+                className={`p-0 hover:text-yellow-400 focus-visible:ring-opacity-0 ${
+                  star <= (formReview.rating ?? 0)
+                    ? "text-yellow-400"
+                    : "text-gray-300"
+                }`}
+                onClick={(e) => handleRatingChange(e, star)}
+              >
+                <Star className="w-6 h-6 fill-current" />
               </Button>
-            )}
+            ))}
           </div>
         </div>
-      </CardContent>
-    </Card>
+        <div>
+          <Label>review</Label>
+          <Textarea
+            value={formReview.content}
+            name="content"
+            onChange={onChange}
+            className="bg-white"
+          />
+        </div>
+        <div className="flex gap-2 justify-end">
+          {!user ? (
+            <Tooltip content="">
+              <Button disabled>로그인이 필요합니다</Button>
+            </Tooltip>
+          ) : (
+            <Button type="button" onClick={handleSave}>
+              {mode === "create" ? "Save" : "Edit"}
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
