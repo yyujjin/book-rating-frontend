@@ -88,8 +88,9 @@ export default function BookCard({ book }: { book: Book }) {
           </div> */}
           <div className="flex justify-between items-center">
             <Rating rating={book.averageRating} />
-            {/* {TODO:} */}
-            <span className="text-gray-500 text-xs">12 reviews</span>
+            <span className="text-gray-500 text-xs">
+              {book.reviewCount} reviews
+            </span>
             {/* <Button
               size="sm"
               variant="ghost"

@@ -6,6 +6,7 @@ export interface Book {
   tags: Tag[];
   averageRating: number;
   thumbnail: string;
+  reviewCount: number;
 }
 
 export interface AddBook {
