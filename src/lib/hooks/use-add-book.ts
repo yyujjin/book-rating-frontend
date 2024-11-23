@@ -26,13 +26,27 @@ export const useAddBook = () => {
   const onSubmit = async () => {
     if (!selectedBook) return;
     try {
-      const { isbn, title, thumbnail } = selectedBook;
+      const {
+        isbn,
+        title,
+        thumbnail,
+        contents,
+        datetime,
+        url,
+        authors,
+        publisher,
+      } = selectedBook;
       mutation.mutate(
         {
           isbn: getIsbn(isbn),
           title,
           thumbnail,
           tags: [],
+          contents,
+          datetime,
+          url,
+          authors: authors.join(", "),
+          publisher,
         },
         {
           onSuccess: () => {

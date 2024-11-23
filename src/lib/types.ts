@@ -7,6 +7,11 @@ export interface Book {
   averageRating: number;
   thumbnail: string;
   reviewCount: number;
+  contents: string;
+  datetime: string;
+  url: string;
+  authors: string;
+  publisher: string;
 }
 
 export interface AddBook {
@@ -14,6 +19,11 @@ export interface AddBook {
   isbn: string;
   tags: number[];
   thumbnail: string;
+  contents: string;
+  datetime: string;
+  url: string;
+  authors: string;
+  publisher: string;
 }
 
 export interface KakaoResponseBook {
@@ -23,6 +33,8 @@ export interface KakaoResponseBook {
   thumbnail: string;
   isbn: string;
   contents: string;
+  datetime: string;
+  url: string;
 }
 
 export interface Tag {
