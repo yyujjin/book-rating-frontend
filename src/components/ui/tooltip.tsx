@@ -41,7 +41,9 @@ const Tooltip = ({
   return (
     <TooltipProvider>
       <TooltipRoot>
-        <TooltipTrigger className={className}>{children}</TooltipTrigger>
+        <TooltipTrigger className={className} asChild>
+          {children}
+        </TooltipTrigger>
         <TooltipContent hidden={!content}>{content}</TooltipContent>
       </TooltipRoot>
     </TooltipProvider>

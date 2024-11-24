@@ -29,15 +29,14 @@ export default function BookInfo({
           height={150}
           className="p-1 max-h-52 object-contain"
         />
-        <Tooltip
-          content={!user ? "로그인이 필요합니다" : ""}
-          className="flex-grow"
-        >
-          <Button className="h-auto" disabled={!user}>
-            <HeartFilledIcon className="opacity-70 w-6 h-6 pr-2" />내 리스트에
-            추가
-          </Button>
-        </Tooltip>
+        <div className="flex-grow flex items-center">
+          <Tooltip content={!user ? "로그인이 필요합니다" : ""}>
+            <Button disabled={!user}>
+              <HeartFilledIcon className="opacity-70 w-6 h-6 pr-2" />내 리스트에
+              추가
+            </Button>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="flex-1">
