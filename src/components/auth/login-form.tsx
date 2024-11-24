@@ -55,9 +55,7 @@ export function LoginForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm/6 font-bold text-gray-900">
-                ID
-              </FormLabel>
+              <FormLabel>아이디</FormLabel>
               <FormControl>
                 <Input placeholder="아이디를 입력하세요" {...field} />
               </FormControl>
@@ -70,9 +68,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm/6 font-bold text-gray-900">
-                Password
-              </FormLabel>
+              <FormLabel>비밀번호</FormLabel>
               <FormControl>
                 <Input
                   type="password"

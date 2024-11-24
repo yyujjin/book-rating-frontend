@@ -18,7 +18,7 @@ export default function LoginPage() {
           href="/register"
           className="font-semibold text-amber-800 hover:text-amber-700"
         >
-          회원가입
+          지금 가입하기
         </Link>
       </p>
     </div>
