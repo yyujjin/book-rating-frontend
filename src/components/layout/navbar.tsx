@@ -30,6 +30,7 @@ const Nav = () => {
     <div className="flex gap-10 h-full items-stretch">
       {menus.map(({ label, link }) => (
         <Link
+          key={link}
           href={link}
           className={cx(
             link === pathname ? active : "text-slate-500",

@@ -48,7 +48,7 @@ export function useReviewForm(
       setFormReview(initial);
       setMode("create");
     }
-  }, [isSuccess, myReview]);
+  }, [isSuccess, myReview, initial]);
 
   const queryClient = useQueryClient();
 
