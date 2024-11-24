@@ -62,7 +62,6 @@ const ReviewList = ({ selectedBook, setAverageRating }: Props) => {
         }
         title="정말 리뷰를 삭제하시겠습니까?"
       />
-      ;
     </>
   );
 };

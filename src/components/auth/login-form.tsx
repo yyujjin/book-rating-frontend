@@ -49,15 +49,17 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-6">
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>ID</FormLabel>
+              <FormLabel className="text-sm/6 font-bold text-gray-900">
+                ID
+              </FormLabel>
               <FormControl>
-                <Input placeholder="Enter your ID" {...field} />
+                <Input placeholder="아이디를 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,11 +70,13 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-sm/6 font-bold text-gray-900">
+                Password
+              </FormLabel>
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="패스워드를 입력하세요"
                   {...field}
                 />
               </FormControl>
@@ -80,7 +84,12 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          className="shadow-sm rounded-sm w-full text-sm/6 font-semibold"
+        >
+          로그인
+        </Button>
       </form>
     </Form>
   );

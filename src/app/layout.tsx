@@ -46,7 +46,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <div className="flex flex-col items-center min-h-screen">
           <UserProvider>
-            <Header />
             <Providers>{children}</Providers>
             <Toaster />
             <Footer />
