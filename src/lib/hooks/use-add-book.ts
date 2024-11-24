@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { KakaoResponseBook } from "../types";
+import { Book, KakaoResponseBook } from "../types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBook } from "../actions/book";
-import { getIsbn } from "../utils";
-import { toast } from "./use-toast";
 import axios from "axios";
 
-export const useAddBook = () => {
+interface Props {
+  onSuccess: (book: Book) => void;
+  onError: (err: Error) => void;
+}
+export const useAddBook = (mutateCallback: Props) => {
   const [data, setData] = useState<KakaoResponseBook[]>();
   const [selectedBook, setSelectedBook] = useState<KakaoResponseBook | null>(
     null
@@ -26,42 +28,7 @@ export const useAddBook = () => {
   const onSubmit = async () => {
     if (!selectedBook) return;
     try {
-      const {
-        isbn,
-        title,
-        thumbnail,
-        contents,
-        datetime,
-        url,
-        authors,
-        publisher,
-      } = selectedBook;
-      mutation.mutate(
-        {
-          isbn: getIsbn(isbn),
-          title,
-          thumbnail,
-          tags: [],
-          contents,
-          datetime,
-          url,
-          authors: authors.join(", "),
-          publisher,
-        },
-        {
-          onSuccess: () => {
-            toast({
-              description: "책이 추가되었습니다.",
-            });
-          },
-          onError: () => {
-            toast({
-              description: "이미 등록된 책입니다.",
-              variant: "destructive",
-            });
-          },
-        }
-      );
+      mutation.mutate(selectedBook, mutateCallback);
 
       setOpen(false);
     } catch (err) {

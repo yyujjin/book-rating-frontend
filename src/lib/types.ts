@@ -17,12 +17,12 @@ export interface Book {
 export interface AddBook {
   title: string;
   isbn: string;
-  tags: number[];
+  tags?: number[];
   thumbnail: string;
   contents: string;
   datetime: string;
   url: string;
-  authors: string;
+  authors: string[];
   publisher: string;
 }
 

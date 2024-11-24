@@ -8,10 +8,35 @@ import BookAlertDescription from "@/components/book/book-alert-description";
 import { useAddBook } from "@/lib/hooks/use-add-book";
 import ISBN from "isbn3";
 import { getIsbn } from "@/lib/utils";
+import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/lib/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { Book } from "@/lib/types";
 
 const AddBook = () => {
+  const router = useRouter();
   const { onSubmit, handleChange, data, selectedBook, setSelectedBook } =
-    useAddBook();
+    useAddBook({
+      onSuccess: (book: Book) => {
+        const id = 1;
+        toast({
+          description: "책이 추가되었습니다.",
+          action: (
+            <ToastAction altText="Try again" asChild>
+              <Button onClick={() => router.push(`/books/${book.id}`)}>
+                보러 가기
+              </Button>
+            </ToastAction>
+          ),
+        });
+      },
+      onError: (err: Error) => {
+        toast({
+          description: err.message,
+          variant: "destructive",
+        });
+      },
+    });
 
   return (
     <div className="w-full md:w-3/4 lg:w-1/2">

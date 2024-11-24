@@ -20,7 +20,7 @@ const DebounceInput = ({
     <Input
       type="search"
       placeholder="Search books..."
-      className="flex-1 bg-white rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+      className="flex-1 bg-white rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 "
       onChange={handleChange}
       autoFocus
     />
