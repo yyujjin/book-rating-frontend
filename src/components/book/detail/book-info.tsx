@@ -7,6 +7,8 @@ import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useUser } from "@/contexts/UserContext";
+import Tooltip from "@/components/ui/tooltip";
 
 export default function BookInfo({
   selectedBook,
@@ -15,21 +17,32 @@ export default function BookInfo({
   selectedBook: Book;
   averageRating: number;
 }) {
+  const { user } = useUser();
+
   return (
     <div className="flex gap-16 justify-center text-slate-500">
-      <Image
-        src={validateSrc(selectedBook.thumbnail)}
-        alt={selectedBook.title}
-        width={150}
-        height={150}
-        className="p-1 max-h-52 object-contain"
-      />
+      <div className="flex flex-col">
+        <Image
+          src={validateSrc(selectedBook.thumbnail)}
+          alt={selectedBook.title}
+          width={150}
+          height={150}
+          className="p-1 max-h-52 object-contain"
+        />
+        <Tooltip
+          content={!user ? "로그인이 필요합니다" : ""}
+          className="flex-grow"
+        >
+          <Button className="h-auto" disabled={!user}>
+            <HeartFilledIcon className="opacity-70 w-6 h-6 pr-2" />내 리스트에
+            추가
+          </Button>
+        </Tooltip>
+      </div>
+
       <div className="flex-1">
         <div className="flex justify-between">
           <Rating rating={averageRating} />
-          <Button variant="ghost" size="sm" className="h-auto">
-            <HeartFilledIcon className="opacity-40 w-5 h-5" />
-          </Button>
         </div>
         <h1 className="mt-4 text-2xl lg:text-3xl font-bold text-slate-900">
           {selectedBook.title}

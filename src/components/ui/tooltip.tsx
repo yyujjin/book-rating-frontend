@@ -32,14 +32,16 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 const Tooltip = ({
   content,
   children,
+  className,
 }: {
   content?: string;
   children: React.ReactNode;
+  className?: string;
 }) => {
   return (
     <TooltipProvider>
       <TooltipRoot>
-        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipTrigger className={className}>{children}</TooltipTrigger>
         <TooltipContent hidden={!content}>{content}</TooltipContent>
       </TooltipRoot>
     </TooltipProvider>
