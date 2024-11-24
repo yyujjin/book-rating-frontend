@@ -8,14 +8,15 @@ import {
 import { toast } from "@/lib/hooks/use-toast";
 import { AddReview, Review } from "@/lib/types";
 
+const initial = {
+  rating: 0,
+  content: "",
+};
+
 export function useReviewForm(
   bookId: number,
   handleAverageRating: (rating: number | undefined) => void
 ) {
-  const initial = {
-    rating: 0,
-    content: "",
-  };
   const [formReview, setFormReview] = useState<AddReview>(initial);
   const [mode, setMode] = useState("create");
 
@@ -48,7 +49,7 @@ export function useReviewForm(
       setFormReview(initial);
       setMode("create");
     }
-  }, [isSuccess, myReview, initial]);
+  }, [isSuccess, myReview]);
 
   const queryClient = useQueryClient();
 
